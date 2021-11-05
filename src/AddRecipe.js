@@ -6,13 +6,12 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
     recipeName: "",
     instructions: "",
     ingredients: [],
-
+    rating: "",
   });
   const ingredientsArray = [];
   
   const makeArray = () => {
   const ingredientsString = newRecipe.ingredients + '';
-  console.log(ingredientsString);
   ingredientsArray.push(ingredientsString.split(","));
   return ingredientsArray;  
   }
@@ -23,6 +22,7 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
     makeArray();
     setRecipe({...newRecipe, id:newRecipe.id+1,ingredients:newRecipe.ingredients = [...ingredientsArray] })
     recipe(newRecipe);
+
   };
 
 
@@ -69,19 +69,8 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
             onChange={handleChange}
           />
         </label>
-        <br/>
-        
-          rating
-          <br />
-          <input
-            type="radio"
-            id="rating1"
-            name="rating"
-            value="1"
-            ></input>
-            <label for="rating1">1</label>
-        
-        <button>Submit Recipe</button>
+        <br/>      
+      <button>Submit Recipe</button>
       </form>
     </div>
   )
