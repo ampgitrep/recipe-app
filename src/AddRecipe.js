@@ -1,23 +1,30 @@
 import { useState } from "react";
 
-const AddRecipe = ({ id, recipe, onSubmit, }) => {
+const AddRecipe = ({ recipe, onSubmit, }) => {
   const [newRecipe, setRecipe] = useState({
     id: 0,
     recipeName: "",
-    newInstructions: "",
+    instructions: "",
+    ingredients: [],
+
   });
+  const ingredientsArray = [];
+  
+  const makeArray = () => {
+  const ingredientsString = newRecipe.ingredients + '';
+  console.log(ingredientsString);
+  ingredientsArray.push(ingredientsString.split(","));
+  return ingredientsArray;  
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit();
-    setRecipe({...newRecipe, id:newRecipe.id+1})
-   console.log(newRecipe)
-   clearInputs();
+    makeArray();
+    setRecipe({...newRecipe, id:newRecipe.id+1,ingredients:newRecipe.ingredients = [...ingredientsArray] })
+    recipe(newRecipe);
   };
 
-  const clearInputs = () => {
-    setRecipe({...newRecipe, recipeName: "", newInstructions: "",})
-  }
 
   const handleChange = (event) => {
     setRecipe({
@@ -46,12 +53,34 @@ const AddRecipe = ({ id, recipe, onSubmit, }) => {
           <br />
           <input
             type="text"
-            name="newInstructions"
+            name="instructions"
             placeholder="instructions"
             onChange={handleChange}
           />
         </label>
         <br/>
+        <label>
+        ingredients
+        <br/>
+        <input
+            type="text"
+            name="ingredients"
+            placeholder="ingredients"
+            onChange={handleChange}
+          />
+        </label>
+        <br/>
+        
+          rating
+          <br />
+          <input
+            type="radio"
+            id="rating1"
+            name="rating"
+            value="1"
+            ></input>
+            <label for="rating1">1</label>
+        
         <button>Submit Recipe</button>
       </form>
     </div>
