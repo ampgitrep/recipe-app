@@ -4,7 +4,6 @@ import _ from "lodash";
 
 const RecipeList = ( { recipeList } ) => {
   const [recipeIsClicked, setRecipeIsClicked] = useState('');
-  recipeList.shift();
   return (
     <div style={{backgroundColor: "#f0f8ff",
     border: "2px solid",

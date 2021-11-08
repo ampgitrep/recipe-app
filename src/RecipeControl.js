@@ -15,21 +15,22 @@ const RecipeControl = () => {
       rating: "",
     }
   )
-  const [prevArray, setPrevArray] = useState([]);
+  const [prevArray, setPrevArray] = useState("");
   const [recipeList, setRecipeList] = useState([...prevArray]);
 
   const getRecipe = (getNewRecipe) => {
     setRecipe(getNewRecipe);
+    const newArray = [...prevArray];
+    newArray.push(getNewRecipe);
+    console.log(newArray)
+     setPrevArray(newArray);
+    setRecipeList([...prevArray]);
     return getNewRecipe;
   }
-
+  
   const onSubmit = () => {
-    console.log(recipe)
-    const newArray = [...prevArray];
-    newArray.push(recipe);
-    console.log(newArray)
-    setPrevArray([newArray]);
-    setRecipeList([...prevArray]);
+    // console.log(recipe)
+    
   }
 
   return (
