@@ -1,42 +1,83 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const AddRecipe = ({ recipe, onSubmit, }) => {
   const [newRecipe, setRecipe] = useState({
     id: 0,
     recipeName: "",
-    instructions: "",
+    instructions: [],
     ingredients: [],
     rating: "",
   });
-  const ingredientsArray = [];
-  
-  const makeArray = () => {
-  const ingredientsString = newRecipe.ingredients + '';
-  ingredientsArray.push(ingredientsString.split(","));
-  return ingredientsArray;  
-  }
+  //separate state slice for what I am trying to accomplish
+  const [ingredientsArray, setIngredientsArray] = useState('');
+  const [instructionsArray, setInstructionsArray] = useState('')
+  const [ingredientsFieldEntry, setIngredientsFieldEntry] = useState("");
+  const [instructionsFieldEntry, setInstructionsFieldEntry] = useState("");
+  const [outputIngredientsList, setOutputIngredientsList] = useState([...ingredientsArray]);
+  const [outputInstructionsList, setOutputInstructionsList] = useState([...instructionsArray]);
+
+  // //This is the old way of setting my ingredients array
+  // const makeArray = () => {
+  //   const ingredientsString = newRecipe.ingredients + '';
+  //   ingredientsArray.push(ingredientsString.split(","));
+  //   return ingredientsArray;
+  // }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit();
-    makeArray();
-    setRecipe({...newRecipe, id:newRecipe.id+1,ingredients:newRecipe.ingredients = [...ingredientsArray] })
+    //onSubmit handler, increase id # and set array to state object
+    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...outputIngredientsList], instructions: newRecipe.instructions = [...outputInstructionsList], })
     recipe(newRecipe);
-
+    onSubmit();
+    clearInputFields();
   };
 
+  //new idea, onClick for button
+  const setIngredientsList = (e) => {
+    e.preventDefault();
+    //make a local copy of state array to not overwrite other ingredients
+    const newEntry = [...ingredientsArray];
+    newEntry.push(ingredientsFieldEntry);
+    //update the list in state
+    setIngredientsArray([...newEntry]);
+    setOutputIngredientsList([...newEntry]);
+    setIngredientsFieldEntry("");
+  }
+  const emptyArr = [];
+  //new idea, onClick for button
+  const setInstructionsList = (event) => {
+    event.preventDefault();
+    //make a local copy of state array to not overwrite other ingredients
+    const newEntry = [...instructionsArray];
+    newEntry.push(instructionsFieldEntry);
+    //update the list in state
+    setInstructionsArray([...newEntry]);
+    setOutputInstructionsList([...newEntry]);
+    setInstructionsFieldEntry("")
+  }
 
-  const handleChange = (event) => {
+  const clearInputFields = () => {
     setRecipe({
-      ...newRecipe,
-      [event.target.name]: event.target.value,
-    });
-
-  };
+      id: newRecipe.id + 1,
+      recipeName: "",
+      instructions: [],
+      ingredients: [],
+      rating: "",
+    })
+    setInstructionsArray([]);
+    setIngredientsArray([]);
+    setOutputIngredientsList([]);
+    setOutputInstructionsList([])
+  }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div style={{
+      backgroundColor: "#f0f8ff",
+      border: "2px solid",
+      borderRadius: "10px"
+    }}>
+      <form onSubmit={handleSubmit}
+        style={{ backgroundColor: "#f0f8ff" }}>
         <label>
           Recipe name
           <br />
@@ -44,7 +85,8 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
             type="text"
             name="recipeName"
             placeholder="recipe name"
-            onChange={handleChange}
+            value={newRecipe.recipeName}
+            onChange={(e) => setRecipe({ ...newRecipe, recipeName: newRecipe.recipeName = e.target.value })}
           />
         </label>
         <br />
@@ -55,23 +97,52 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
             type="text"
             name="instructions"
             placeholder="instructions"
-            onChange={handleChange}
+            value={instructionsFieldEntry}
+            onChange={(e) => setInstructionsFieldEntry(e.target.value)}
           />
         </label>
-        <br/>
+        <button onClick={setInstructionsList}> Add next step </button>
+        <ol
+          style={{
+            textAlign: "left",
+            border: "2px solid",
+            borderRadius: "10px",
+            width: "200px",
+            backgroundColor: "#FBCEB1"
+          }}>
+          {outputInstructionsList.map((instructions) => (
+            <li>{instructions}</li>
+          ))}
+        </ol>
+        <br />
         <label>
-        ingredients
-        <br/>
-        <input
+          ingredients
+          <br />
+          <input
             type="text"
             name="ingredients"
             placeholder="ingredients"
-            onChange={handleChange}
+            value={ingredientsFieldEntry}
+            onChange={(e) => setIngredientsFieldEntry(e.target.value)}
+
           />
         </label>
-        <br/>      
-      <button>Submit Recipe</button>
+        <button onClick={setIngredientsList}> Add ingredient </button>
+        <ol
+          style={{
+            textAlign: "left",
+            border: "2px solid",
+            borderRadius: "10px",
+            width: "200px",
+            backgroundColor: "#FBCEB1"
+          }}>
+          {outputIngredientsList.map((ingredient) => (
+            <li>{ingredient}</li>
+          ))}
+        </ol>
+        <button>Submit Recipe</button>
       </form>
+      <br />
     </div>
   )
 

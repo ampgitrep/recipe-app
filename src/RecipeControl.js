@@ -5,31 +5,38 @@ import { useState } from "react";
 
 
 
-const currentRecipe = (currentNewRecipe) => {
-  return currentNewRecipe;
-}
 
 const RecipeControl = () => {
-  const [recipe, setRecipe] = useState({})
-  const [recipeList, setRecipeList] = useState([]);
-  const currentRecipeList = [];
+  const [recipe, setRecipe] = useState(
+    {
+      recipeName: "",
+      instructions: [],
+      ingredients: [],
+      rating: "",
+    }
+  )
+  const [prevArray, setPrevArray] = useState([]);
+  const [recipeList, setRecipeList] = useState([...prevArray]);
+
   const getRecipe = (getNewRecipe) => {
-    const newRecipe = currentRecipe(getNewRecipe);
-    setRecipe(newRecipe);
-    setRecipeList([...recipeList], newRecipe);
-    return newRecipe;
+    setRecipe(getNewRecipe);
+    return getNewRecipe;
   }
-  
-  const onSubmit = () => {  
-    console.log(recipe);
-    console.log(recipeList);
+
+  const onSubmit = () => {
+    console.log(recipe)
+    const newArray = [...prevArray];
+    newArray.push(recipe);
+    console.log(newArray)
+    setPrevArray([newArray]);
+    setRecipeList([...prevArray]);
   }
 
   return (
     <div>
-      <AddRecipe onSubmit={onSubmit} recipe={getRecipe}  />
-      <Recipe recipe={recipe}/>
-      <RecipeList recipe={recipe}/>
+      <AddRecipe onSubmit={onSubmit} recipe={getRecipe} />
+      <Recipe recipe={recipe} />
+      <RecipeList recipeList={recipeList} />
     </div>
   )
 };

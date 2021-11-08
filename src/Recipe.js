@@ -1,25 +1,24 @@
-import AddRecipe from "./AddRecipe";
 import react from "react";
-import _ from "lodash";
+
 
 const Recipe = ({ recipe }) => {
-  if (recipe !== null) {
+  {
     return (
-      <div>
-        {recipe.id} - {recipe.recipeName}
+      <div  style={{backgroundColor: "#f0f8ff",
+                    border: "2px solid",
+                    borderRadius: "10px", }}>
+        id:  {recipe.id} - name: {recipe.recipeName}
         <br />
-        ingredients: {_.forEach(recipe.ingredients, ((e) => {
-          return (
-            <ol>
-              <li>
-                {e}
-              </li>
-            </ol>
-          )
-        }
-        ))}
-        <br />
-        instructions: {recipe.instructions}
+        instructions:   <ol>
+          {recipe.instructions.map((instructions) => (
+            <li>{instructions}</li>
+          ))}
+        </ol>
+        ingredients:    <ol>
+          {recipe.ingredients.map((ingredients) => (
+            <li>{ingredients}</li>
+          ))}
+        </ol>
       </div>
     )
   }
