@@ -2,12 +2,17 @@ import RecipeControl from "./RecipeControl";
 function App() {
   return (
     <div className="App"
-    style={{backgroundColor: "#f0f8ff",
-                    border: "2px solid",
-                    borderRadius: "10px", }}>
+    style={{
+      marginLeft: "5%",
+      marginRight: "5%",
+      marginTop: "5%",
+      backgroundPosition: "center",
+      backgroundColor: "#f0f8ff",
+                     }}>
       <header className="App-header">
-        <RecipeControl/>
+      <h3><center>Phoenix poops</center></h3>
       </header>
+        <RecipeControl/>
     </div>
   );
 }

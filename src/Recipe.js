@@ -5,7 +5,7 @@ const Recipe = ({ recipe }) => {
   {
     return (
       <div  style={{backgroundColor: "#f0f8ff",
-                    border: "2px solid",
+                    border: "3px solid",
                     borderRadius: "10px", }}>
         id:  {recipe.id} - name: {recipe.recipeName}
         <br />
@@ -19,6 +19,8 @@ const Recipe = ({ recipe }) => {
             <li>{ingredients}</li>
           ))}
         </ol>
+        rating: 
+        {recipe.rating}
       </div>
     )
   }

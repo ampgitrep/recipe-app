@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import GetRating from "./Rating.js";
 
-const AddRecipe = ({ recipe, onSubmit, }) => {
+const AddRecipe = ({ recipe, onSubmit}) => {
   const [newRecipe, setRecipe] = useState({
     id: 0,
     recipeName: "",
@@ -8,6 +9,7 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
     ingredients: [],
     rating: "",
   });
+
   //separate state slice for what I am trying to accomplish
   const [ingredientsArray, setIngredientsArray] = useState('');
   const [instructionsArray, setInstructionsArray] = useState('')
@@ -15,7 +17,7 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
   const [instructionsFieldEntry, setInstructionsFieldEntry] = useState("");
   const [outputIngredientsList, setOutputIngredientsList] = useState([...ingredientsArray]);
   const [outputInstructionsList, setOutputInstructionsList] = useState([...instructionsArray]);
-
+  const [rating, setRating] = useState(0);
   // //This is the old way of setting my ingredients array
   // const makeArray = () => {
   //   const ingredientsString = newRecipe.ingredients + '';
@@ -25,12 +27,18 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  //  const rating = getRating();
     //onSubmit handler, increase id # and set array to state object
-    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...outputIngredientsList], instructions: newRecipe.instructions = [...outputInstructionsList], })
+    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...outputIngredientsList], instructions: newRecipe.instructions = [...outputInstructionsList], rating: newRecipe.rating = rating})
     recipe(newRecipe);
     onSubmit();
     clearInputFields();
   };
+
+  const getRating = (rate) => {
+    setRating(rate);
+    return rating;
+  }
 
   //new idea, onClick for button
   const setIngredientsList = (e) => {
@@ -43,7 +51,6 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
     setOutputIngredientsList([...newEntry]);
     setIngredientsFieldEntry("");
   }
-  const emptyArr = [];
   //new idea, onClick for button
   const setInstructionsList = (event) => {
     event.preventDefault();
@@ -70,14 +77,18 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
     setOutputInstructionsList([])
   }
 
+
   return (
     <div style={{
+     
       backgroundColor: "#f0f8ff",
-      border: "2px solid",
+      border: "3px solid",
       borderRadius: "10px"
     }}>
       <form onSubmit={handleSubmit}
-        style={{ backgroundColor: "#f0f8ff" }}>
+        style={{ backgroundColor: "#f0f8ff",
+        backgroundColor: "#f0f8ff",
+        }}>
         <label>
           Recipe name
           <br />
@@ -111,7 +122,7 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
             backgroundColor: "#FBCEB1"
           }}>
           {outputInstructionsList.map((instructions) => (
-            <li>{instructions}</li>
+            <li key={outputInstructionsList.indexOf(instructions)}>{instructions}</li>
           ))}
         </ol>
         <br />
@@ -140,6 +151,7 @@ const AddRecipe = ({ recipe, onSubmit, }) => {
             <li>{ingredient}</li>
           ))}
         </ol>
+        <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
       </form>
       <br />

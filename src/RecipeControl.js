@@ -22,14 +22,13 @@ const RecipeControl = () => {
     setRecipe(getNewRecipe);
     const newArray = [...prevArray];
     newArray.push(getNewRecipe);
-    console.log(newArray)
      setPrevArray(newArray);
-    setRecipeList([...prevArray]);
+    setRecipeList(newArray);
     return getNewRecipe;
   }
   
   const onSubmit = () => {
-    // console.log(recipe)
+    
     
   }
 

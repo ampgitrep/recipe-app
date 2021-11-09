@@ -6,9 +6,9 @@ const RecipeList = ( { recipeList } ) => {
   const [recipeIsClicked, setRecipeIsClicked] = useState('');
   return (
     <div style={{backgroundColor: "#f0f8ff",
-    border: "2px solid",
+    border: "3px solid",
     borderRadius: "10px", }}>
-        RecipeList - 
+        recipe list: 
       <ul>
       {recipeList.map((recipe) => ( 
         <li>{recipe.id} - {recipe.recipeName}</li>
