@@ -84,12 +84,12 @@ const AddRecipe = ({ recipe }) => {
     return e.id > 0;
   }).map(({ id, instruction }) => {
     return (
-    <ol>
       <li 
       key={instruction} 
+      style={{marginLeft: "15px"}}
       onClick={() => handleDelete(id)}
-      > {instruction} </li>
-      </ol>)
+      >{instruction} </li>
+      )
   })
 
   const handleDelete = (id) => {
@@ -162,8 +162,9 @@ const AddRecipe = ({ recipe }) => {
           />
         </label>
         <button onClick={getInstructionsList}> Add next step </button>
+        <ol style={{padding: "2px" }}>
         {filteredInstructionList}
-        <br />
+        </ol>
         <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
       </form>

@@ -6,9 +6,9 @@ const RecipeList = ( { recipeList } ) => {
     border: "3px solid",
     borderRadius: "6px", }}>
         recipe list: 
-      <ul>
+        <ul style={{padding:"15px"}}>
       {recipeList.map(({recipeName, id}) => ( 
-        <li>{id} - {recipeName}</li>
+        <li>{recipeName}</li>
       ))}
       </ul>
     </div>
