@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import GetRating from "./Rating.js";
+const AddRecipe = ({ recipe }) => {
 
-const AddRecipe = ({ recipe, onSubmit}) => {
+
   const [newRecipe, setRecipe] = useState({
     id: 0,
     recipeName: "",
@@ -9,58 +10,91 @@ const AddRecipe = ({ recipe, onSubmit}) => {
     ingredients: [],
     rating: "",
   });
-
-  //separate state slice for what I am trying to accomplish
-  const [ingredientsArray, setIngredientsArray] = useState('');
-  const [instructionsArray, setInstructionsArray] = useState('')
+  const [instructionsList, setInstructionsList] = useState([{
+    id: 0,
+    instruction: "",
+  }]);
+  const [ingredientsList, setIngredientsList] = useState([{
+    id: 0,
+    instruction: ""
+  }]);
+  const [ingredientsArray, setIngredientsArray] = useState("");
+  const [instructionsArray, setInstructionsArray] = useState(instructionsList)
   const [ingredientsFieldEntry, setIngredientsFieldEntry] = useState("");
   const [instructionsFieldEntry, setInstructionsFieldEntry] = useState("");
-  const [outputIngredientsList, setOutputIngredientsList] = useState([...ingredientsArray]);
-  const [outputInstructionsList, setOutputInstructionsList] = useState([...instructionsArray]);
+  const [outputIngredientsList, setOutputIngredientsList] = useState([...ingredientsArray] || "");
+  const [outputInstructionsList, setOutputInstructionsList] = useState(instructionsArray || "");
   const [rating, setRating] = useState(0);
-  // //This is the old way of setting my ingredients array
-  // const makeArray = () => {
-  //   const ingredientsString = newRecipe.ingredients + '';
-  //   ingredientsArray.push(ingredientsString.split(","));
-  //   return ingredientsArray;
-  // }
+  const [idNum, setIdNum] = useState(1)
+  const [currentInstructionsList, setCurrentInstructionsList] = useState()
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  //  const rating = getRating();
     //onSubmit handler, increase id # and set array to state object
-    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...outputIngredientsList], instructions: newRecipe.instructions = [...outputInstructionsList], rating: newRecipe.rating = rating})
+    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating })
     recipe(newRecipe);
-    onSubmit();
     clearInputFields();
   };
+
+  const getId = (idNum) => {
+    let count = idNum + 1;
+    setIdNum(count);
+    return idNum;
+  }
 
   const getRating = (rate) => {
     setRating(rate);
     return rating;
   }
 
-  //new idea, onClick for button
-  const setIngredientsList = (e) => {
+  const getIngredientsList = (e) => {
     e.preventDefault();
-    //make a local copy of state array to not overwrite other ingredients
-    const newEntry = [...ingredientsArray];
-    newEntry.push(ingredientsFieldEntry);
-    //update the list in state
-    setIngredientsArray([...newEntry]);
-    setOutputIngredientsList([...newEntry]);
+    const newId = getId(idNum);
+    const currentList = [...ingredientsList];
+    currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = ingredientsFieldEntry })
+    const newList = currentList.filter((e)=> {
+     return e.id > 0;
+    })
+    setIngredientsList(newList);
+    console.log(ingredientsList);
     setIngredientsFieldEntry("");
   }
-  //new idea, onClick for button
-  const setInstructionsList = (event) => {
-    event.preventDefault();
-    //make a local copy of state array to not overwrite other ingredients
-    const newEntry = [...instructionsArray];
-    newEntry.push(instructionsFieldEntry);
-    //update the list in state
-    setInstructionsArray([...newEntry]);
-    setOutputInstructionsList([...newEntry]);
-    setInstructionsFieldEntry("")
+  const filteredIngredientList = ingredientsList.filter((e) => {
+    return e.id > 0;
+  }).map(({ id, ingredient }) => {
+    return (
+    <li
+    style={{marginLeft: "15px"}} 
+    key={ingredient} onClick={() => handleDelete(id)}> {ingredient} </li>)
+  })
+
+  const getInstructionsList = (e) => {
+    e.preventDefault();
+    const newId = getId(idNum);
+    const currentList = [...instructionsList];
+    currentList.push({ id: instructionsList.id = newId, instruction: instructionsList.instruction = instructionsFieldEntry })
+    const newList = currentList.filter((e)=> {
+      return e.id > 0;
+    })
+    setInstructionsList(newList);
+    console.log(instructionsList);
+    setInstructionsFieldEntry("");
+  }
+  const filteredInstructionList = instructionsList.filter((e) => {
+    return e.id > 0;
+  }).map(({ id, instruction }) => {
+    return (
+    <ol>
+      <li 
+      key={instruction} 
+      onClick={() => handleDelete(id)}
+      > {instruction} </li>
+      </ol>)
+  })
+
+  const handleDelete = (id) => {
+    console.log("The id you clicked is ", id)
+   // filteredInstructionList.splice(id, 1);
   }
 
   const clearInputFields = () => {
@@ -80,17 +114,17 @@ const AddRecipe = ({ recipe, onSubmit}) => {
 
   return (
     <div style={{
-     
+
       backgroundColor: "#f0f8ff",
       border: "3px solid",
-      borderRadius: "10px"
+      borderRadius: "6px"
     }}>
       <form onSubmit={handleSubmit}
-        style={{ backgroundColor: "#f0f8ff",
-        backgroundColor: "#f0f8ff",
+        style={{
+          backgroundColor: "#f0f8ff",
         }}>
         <label>
-          Recipe name
+          Recipe Name
           <br />
           <input
             type="text"
@@ -102,32 +136,7 @@ const AddRecipe = ({ recipe, onSubmit}) => {
         </label>
         <br />
         <label>
-          Instructions
-          <br />
-          <input
-            type="text"
-            name="instructions"
-            placeholder="instructions"
-            value={instructionsFieldEntry}
-            onChange={(e) => setInstructionsFieldEntry(e.target.value)}
-          />
-        </label>
-        <button onClick={setInstructionsList}> Add next step </button>
-        <ol
-          style={{
-            textAlign: "left",
-            border: "2px solid",
-            borderRadius: "10px",
-            width: "200px",
-            backgroundColor: "#FBCEB1"
-          }}>
-          {outputInstructionsList.map((instructions) => (
-            <li key={outputInstructionsList.indexOf(instructions)}>{instructions}</li>
-          ))}
-        </ol>
-        <br />
-        <label>
-          ingredients
+          Ingredients
           <br />
           <input
             type="text"
@@ -138,19 +147,23 @@ const AddRecipe = ({ recipe, onSubmit}) => {
 
           />
         </label>
-        <button onClick={setIngredientsList}> Add ingredient </button>
-        <ol
-          style={{
-            textAlign: "left",
-            border: "2px solid",
-            borderRadius: "10px",
-            width: "200px",
-            backgroundColor: "#FBCEB1"
-          }}>
-          {outputIngredientsList.map((ingredient) => (
-            <li>{ingredient}</li>
-          ))}
-        </ol>
+        <button onClick={getIngredientsList}> Add ingredient </button>
+        {filteredIngredientList}
+        <label>
+          <br/>
+          Instructions
+          <br />
+          <input
+            type="text"
+            name="instructions"
+            placeholder="instructions"
+            value={instructionsFieldEntry}
+            onChange={(e) => setInstructionsFieldEntry(e.target.value)}
+          />
+        </label>
+        <button onClick={getInstructionsList}> Add next step </button>
+        {filteredInstructionList}
+        <br />
         <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
       </form>

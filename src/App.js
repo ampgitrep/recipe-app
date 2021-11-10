@@ -7,10 +7,10 @@ function App() {
       marginRight: "5%",
       marginTop: "5%",
       backgroundPosition: "center",
-      backgroundColor: "#f0f8ff",
-                     }}>
+     }}
+      >
       <header className="App-header">
-      <h3><center>Phoenix poops</center></h3>
+      <h3 ><center>Phoenix poops</center></h3>
       </header>
         <RecipeControl/>
     </div>

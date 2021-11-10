@@ -3,9 +3,6 @@ import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { useState } from "react";
 
-
-
-
 const RecipeControl = () => {
   const [recipe, setRecipe] = useState(
     {
@@ -17,6 +14,7 @@ const RecipeControl = () => {
   )
   const [prevArray, setPrevArray] = useState("");
   const [recipeList, setRecipeList] = useState([...prevArray]);
+  const [currentInstructionsList, setCurrentInstructionsList] = useState([])
 
   const getRecipe = (getNewRecipe) => {
     setRecipe(getNewRecipe);
@@ -24,17 +22,15 @@ const RecipeControl = () => {
     newArray.push(getNewRecipe);
      setPrevArray(newArray);
     setRecipeList(newArray);
+    console.log(getNewRecipe)
     return getNewRecipe;
   }
   
-  const onSubmit = () => {
-    
-    
-  }
+
 
   return (
     <div>
-      <AddRecipe onSubmit={onSubmit} recipe={getRecipe} />
+      <AddRecipe recipe={getRecipe} />
       <Recipe recipe={recipe} />
       <RecipeList recipeList={recipeList} />
     </div>
