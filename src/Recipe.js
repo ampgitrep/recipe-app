@@ -3,9 +3,11 @@ const Recipe = ({ recipe }) => {
 
   return (
     <div style={{
-      backgroundColor: "#f0f8ff",
-      border: "3px solid",
-      borderRadius: "6px",
+        backgroundImage:`repeating-linear-gradient(to bottom, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 22px)`,
+        textAlign: "center",
+        border: "1px solid",
+        borderRadius: "2px",
+        width:'50%'
     }}>
       id:  {recipe.id} - name: {recipe.recipeName}
       <br />

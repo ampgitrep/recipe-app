@@ -10,7 +10,7 @@ function App() {
      }}
       >
       <header className="App-header">
-      <h3 ><center>Phoenix poops</center></h3>
+      
       </header>
         <RecipeControl/>
     </div>

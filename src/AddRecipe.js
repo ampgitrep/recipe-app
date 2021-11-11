@@ -18,15 +18,11 @@ const AddRecipe = ({ recipe }) => {
     id: 0,
     instruction: ""
   }]);
-  const [ingredientsArray, setIngredientsArray] = useState("");
-  const [instructionsArray, setInstructionsArray] = useState(instructionsList)
   const [ingredientsFieldEntry, setIngredientsFieldEntry] = useState("");
   const [instructionsFieldEntry, setInstructionsFieldEntry] = useState("");
-  const [outputIngredientsList, setOutputIngredientsList] = useState([...ingredientsArray] || "");
-  const [outputInstructionsList, setOutputInstructionsList] = useState(instructionsArray || "");
   const [rating, setRating] = useState(0);
-  const [idNum, setIdNum] = useState(1)
-  const [currentInstructionsList, setCurrentInstructionsList] = useState()
+  const [idNumIns, setIdNumIns] = useState(1)
+  const [idNumIng, setIdNumIng] = useState(1)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,66 +32,75 @@ const AddRecipe = ({ recipe }) => {
     clearInputFields();
   };
 
-  const getId = (idNum) => {
-    let count = idNum + 1;
-    setIdNum(count);
-    return idNum;
-  }
+  const getIdIns = (idNumIns) => {
+    let count = idNumIns + 1;
+    setIdNumIns(count);
+    return idNumIns;
+  };
+
+  const getIdIng = (idNumIng) => {
+    let count = idNumIng + 1;
+    setIdNumIng(count);
+    return idNumIng;
+  };
 
   const getRating = (rate) => {
     setRating(rate);
     return rating;
-  }
+  };
 
   const getIngredientsList = (e) => {
     e.preventDefault();
-    const newId = getId(idNum);
+    const newId = getIdIng(idNumIng);
     const currentList = [...ingredientsList];
     currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = ingredientsFieldEntry })
-    const newList = currentList.filter((e)=> {
-     return e.id > 0;
-    })
+    const newList = currentList.filter((e) => {
+      return e.id > 0;
+    });
+
     setIngredientsList(newList);
     console.log(ingredientsList);
     setIngredientsFieldEntry("");
-  }
+  };
+
   const filteredIngredientList = ingredientsList.filter((e) => {
     return e.id > 0;
   }).map(({ id, ingredient }) => {
     return (
-    <li
-    style={{marginLeft: "15px"}} 
-    key={ingredient} onClick={() => handleDelete(id)}> {ingredient} </li>)
-  })
+      <li
+        style={{ marginLeft: "15px" }}
+        key={ingredient} onClick={() => handleDelete(id)}> {ingredient} </li>)
+  });
 
   const getInstructionsList = (e) => {
     e.preventDefault();
-    const newId = getId(idNum);
+    const newId = getIdIns(idNumIns);
     const currentList = [...instructionsList];
     currentList.push({ id: instructionsList.id = newId, instruction: instructionsList.instruction = instructionsFieldEntry })
-    const newList = currentList.filter((e)=> {
+    const newList = currentList.filter((e) => {
       return e.id > 0;
-    })
+    });
     setInstructionsList(newList);
     console.log(instructionsList);
     setInstructionsFieldEntry("");
-  }
+  };
+
   const filteredInstructionList = instructionsList.filter((e) => {
     return e.id > 0;
   }).map(({ id, instruction }) => {
     return (
-      <li 
-      key={instruction} 
-      style={{marginLeft: "15px"}}
-      onClick={() => handleDelete(id)}
+      <li
+        key={instruction}
+        style={{ marginLeft: "15px" }}
+        onClick={() => handleDelete(id)}
       >{instruction} </li>
-      )
-  })
-
+    );
+  });
+  
   const handleDelete = (id) => {
     console.log("The id you clicked is ", id)
-   // filteredInstructionList.splice(id, 1);
-  }
+    // filteredInstructionList.splice(id, 1);
+  };
 
   const clearInputFields = () => {
     setRecipe({
@@ -105,23 +110,25 @@ const AddRecipe = ({ recipe }) => {
       ingredients: [],
       rating: "",
     })
-    setInstructionsArray([]);
-    setIngredientsArray([]);
-    setOutputIngredientsList([]);
-    setOutputInstructionsList([])
+    setInstructionsList([]);
+    setIngredientsList([]);
+    setIdNumIng(0);
+    setIdNumIns(0);
   }
 
 
   return (
-    <div style={{
-
-      backgroundColor: "#f0f8ff",
-      border: "3px solid",
-      borderRadius: "6px"
-    }}>
+    <div>
+      <p style={{marginLeft:"200px",
+                 }}>Add New Recipe</p>
       <form onSubmit={handleSubmit}
         style={{
-          backgroundColor: "#f0f8ff",
+          backgroundColor: "#C7F9FF",
+          textAlign: "center",
+          border: "1px solid",
+          borderRadius: "2px",
+          marginRight: "390px",
+          width:"80%"
         }}>
         <label>
           Recipe Name
@@ -147,10 +154,14 @@ const AddRecipe = ({ recipe }) => {
 
           />
         </label>
-        <button onClick={getIngredientsList}> Add ingredient </button>
+        <button 
+        style={{marginLeft:"2px"}}
+        onClick={getIngredientsList}> Add ingredient </button>
+        <ul style={{textAlign:"left"}}>
         {filteredIngredientList}
+        </ul>
         <label>
-          <br/>
+          <br />
           Instructions
           <br />
           <input
@@ -161,14 +172,15 @@ const AddRecipe = ({ recipe }) => {
             onChange={(e) => setInstructionsFieldEntry(e.target.value)}
           />
         </label>
-        <button onClick={getInstructionsList}> Add next step </button>
-        <ol style={{padding: "2px" }}>
-        {filteredInstructionList}
+        <button 
+        style={{marginLeft:"2px"}}
+        onClick={getInstructionsList}> Add next step </button>
+        <ol style={{ textAlign: "left" }}>
+          {filteredInstructionList}
         </ol>
         <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
       </form>
-      <br />
     </div>
   )
 

@@ -12,9 +12,9 @@ const RecipeControl = () => {
       rating: "",
     }
   )
+  const [isActive, setIsActive] = useState(false);
   const [prevArray, setPrevArray] = useState("");
   const [recipeList, setRecipeList] = useState([...prevArray]);
-  const [currentInstructionsList, setCurrentInstructionsList] = useState([])
 
   const getRecipe = (getNewRecipe) => {
     setRecipe(getNewRecipe);
@@ -26,13 +26,21 @@ const RecipeControl = () => {
     return getNewRecipe;
   }
   
-
+  const handleHide = () => {
+    setIsActive(false);
+  }
+  const handleShow = () => {
+    setIsActive(true);
+  }
 
   return (
-    <div>
-      <AddRecipe recipe={getRecipe} />
-      <Recipe recipe={recipe} />
-      <RecipeList recipeList={recipeList} />
+    <div style={{
+    display: "flex",
+    flexWrap: "wrap",}}>
+      <AddRecipe recipe={getRecipe} /><RecipeList recipeList={recipeList} />
+      {isActive ? 
+      <Recipe recipe={recipe} /> : null}
+      
     </div>
   )
 };
