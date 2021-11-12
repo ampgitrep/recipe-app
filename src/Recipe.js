@@ -26,8 +26,7 @@ const Recipe = ({ recipe }) => {
             key={ingredient}>{ingredient}</li>
           ))}
         <br/>
-      rating: 
-      {recipe.rating}
+      rating:   {recipe.rating}
     </div>
   )
 

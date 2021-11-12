@@ -15,32 +15,34 @@ const RecipeControl = () => {
   const [isActive, setIsActive] = useState(false);
   const [prevArray, setPrevArray] = useState("");
   const [recipeList, setRecipeList] = useState([...prevArray]);
-
+  const [clickedId, setClickedId] = useState("")
   const getRecipe = (getNewRecipe) => {
     setRecipe(getNewRecipe);
     const newArray = [...prevArray];
     newArray.push(getNewRecipe);
-     setPrevArray(newArray);
+    setPrevArray(newArray);
     setRecipeList(newArray);
-    console.log(getNewRecipe)
     return getNewRecipe;
   }
   
-  const handleHide = () => {
-    setIsActive(false);
-  }
-  const handleShow = () => {
-    setIsActive(true);
+  
+  const toggleVisibility = (id) => {
+    setClickedId(id);
+    if (isActive === true) {
+      return setIsActive(false);
+    }
+    console.log(clickedId)
+    return setIsActive(true);
   }
 
+
   return (
-    <div style={{
-    display: "flex",
-    flexWrap: "wrap",}}>
-      <AddRecipe recipe={getRecipe} /><RecipeList recipeList={recipeList} />
-      {isActive ? 
-      <Recipe recipe={recipe} /> : null}
-      
+    <div>
+      <AddRecipe recipe={getRecipe} />
+      <RecipeList onClick={toggleVisibility} recipeList={recipeList} />
+      {isActive ?
+        <Recipe recipe={recipe} /> : null}
+
     </div>
   )
 };

@@ -1,6 +1,6 @@
 import Recipe from "./Recipe";
 
-const RecipeList = ({ recipeList }) => {
+const RecipeList = ({ recipeList, onClick }) => {
   const getStars = (rate) => {
     switch (rate) {
       case rate = 1:
@@ -17,13 +17,7 @@ const RecipeList = ({ recipeList }) => {
         break;
     }
   };
-  const showRecipe = (recipeName) => {
-    console.log(recipeName)
-      return (
-        <Recipe recipe={recipeList.recipeName}/>
-      )
-    
-  }
+
   return (
     <div style={{
       backgroundImage: `repeating-linear-gradient(to bottom, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 20px)`,
@@ -35,8 +29,8 @@ const RecipeList = ({ recipeList }) => {
       recipe list:
       <ul
         style={{ textAlign: "left" }}>
-        {recipeList.map(({ recipeName, rating }) => (
-          <li>{recipeName} - {getStars(rating)}</li>
+        {recipeList.map(({ recipeName, rating, id }) => (
+          <li onClick={()=>onClick(id)}>{recipeName} - {getStars(rating)}</li>
         ))}
       </ul>
     </div>
