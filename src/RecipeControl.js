@@ -27,13 +27,14 @@ const RecipeControl = () => {
   
   
   const toggleVisibility = (id) => {
-    setClickedId(id);
-    if (isActive === true) {
-      return setIsActive(false);
+    if (id !== clickedId || isActive === false) {
+      setClickedId(id);
+      return setIsActive(true);
     }
-    console.log(clickedId)
-    return setIsActive(true);
+    if(id === clickedId){
+    return setIsActive(false);
   }
+}
 
 
   return (
@@ -41,7 +42,7 @@ const RecipeControl = () => {
       <AddRecipe recipe={getRecipe} />
       <RecipeList onClick={toggleVisibility} recipeList={recipeList} />
       {isActive ?
-        <Recipe recipe={recipe} /> : null}
+        <Recipe recipe={recipeList} clickedId={clickedId} /> : null}
 
     </div>
   )

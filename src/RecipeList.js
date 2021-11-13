@@ -20,7 +20,7 @@ const RecipeList = ({ recipeList, onClick }) => {
 
   return (
     <div style={{
-      backgroundImage: `repeating-linear-gradient(to bottom, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 20px)`,
+      backgroundImage: `repeating-linear-gradient(to bottom, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 18px)`,
       textAlign: "center",
       border: "1px solid",
       borderRadius: "2px",

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import GetRating from "./Rating.js";
-const AddRecipe = ({ recipe }) => {
+import QuantityBox from "./QuantityBox.js";
+import RadioNodeList from "react";
 
+
+const AddRecipe = ({ recipe }) => {
 
   const [newRecipe, setRecipe] = useState({
     id: 0,
     recipeName: "",
     instructions: [],
+    quantity: 0,
     ingredients: [],
     rating: "",
   });
@@ -23,14 +27,26 @@ const AddRecipe = ({ recipe }) => {
   const [rating, setRating] = useState(0);
   const [idNumIns, setIdNumIns] = useState(1)
   const [idNumIng, setIdNumIng] = useState(1)
-
+  const [quantity, setQuantity] = useState(1);
+  const [firstRun, setFirstRun] = useState(true);
   const handleSubmit = (e) => {
     e.preventDefault();
     //onSubmit handler, increase id # and set array to state object
     setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating })
     recipe(newRecipe);
     clearInputFields();
+    setFirstRun(false);
   };
+
+  const options = [
+    { value: 'oz', label: 'oz' },
+    { value: 'cups', label: 'cups' },
+    { value: 'tsps', label: 'tsps' },
+    { value: 'tbs', label: 'tbs' },
+    { value: 'each', label: 'each' },
+    { value: 'pinch', label: 'pinch' },
+    { value: 'taste', label: 'taste' },
+  ]
 
   const getIdIns = (idNumIns) => {
     let count = idNumIns + 1;
@@ -49,20 +65,23 @@ const AddRecipe = ({ recipe }) => {
     return rating;
   };
 
+  const getQuantity = (amt) => {
+    setQuantity(amt);
+
+  }
+
   const getIngredientsList = (e) => {
     e.preventDefault();
     const newId = getIdIng(idNumIng);
     const currentList = [...ingredientsList];
-    currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = ingredientsFieldEntry })
+    currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = quantity + " " + ingredientsFieldEntry })
     const newList = currentList.filter((e) => {
       return e.id > 0;
     });
 
-    setIngredientsList(newList);
-    console.log(ingredientsList);
+    setIngredientsList(newList);;
     setIngredientsFieldEntry("");
   };
-
   const filteredIngredientList = ingredientsList.filter((e) => {
     return e.id > 0;
   }).map(({ id, ingredient }) => {
@@ -84,10 +103,10 @@ const AddRecipe = ({ recipe }) => {
     console.log(instructionsList);
     setInstructionsFieldEntry("");
   };
-
-  const filteredInstructionList = instructionsList.filter((e) => {
-    return e.id > 0;
-  }).map(({ id, instruction }) => {
+  //we want to run once initially, then run without filter
+const filteredInstructionList = instructionsList.filter((e) => {
+  return e.id > 0;
+}).map(({ id, instruction }) => {
     return (
       <li
         key={instruction}
@@ -96,7 +115,7 @@ const AddRecipe = ({ recipe }) => {
       >{instruction} </li>
     );
   });
-  
+
   const handleDelete = (id) => {
     console.log("The id you clicked is ", id)
     // filteredInstructionList.splice(id, 1);
@@ -110,17 +129,22 @@ const AddRecipe = ({ recipe }) => {
       ingredients: [],
       rating: "",
     })
-    setInstructionsList([]);
-    setIngredientsList([]);
-    setIdNumIng(0);
-    setIdNumIns(0);
+    setInstructionsList([{
+      id: 0,
+      instruction: "",
+    }]);
+    setIngredientsList([{
+      id: 0,
+      ingredient: "",
+    }]);
+    setIdNumIng(1);
+    setIdNumIns(1);
   }
-
-
   return (
     <div>
-      <p style={{marginLeft:"200px",
-                 }}>Add New Recipe</p>
+      <p style={{
+        marginLeft: "200px",
+      }}>Add New Recipe</p>
       <form onSubmit={handleSubmit}
         style={{
           backgroundColor: "#C7F9FF",
@@ -128,7 +152,7 @@ const AddRecipe = ({ recipe }) => {
           border: "1px solid",
           borderRadius: "2px",
           marginRight: "390px",
-          width:"80%"
+          width: "80%"
         }}>
         <label>
           Recipe Name
@@ -145,20 +169,26 @@ const AddRecipe = ({ recipe }) => {
         <label>
           Ingredients
           <br />
+
+          <QuantityBox getQuantity={getQuantity} />
+          <div>
+
+          </div>
           <input
+
             type="text"
             name="ingredients"
             placeholder="ingredients"
             value={ingredientsFieldEntry}
             onChange={(e) => setIngredientsFieldEntry(e.target.value)}
-
           />
+
         </label>
-        <button 
-        style={{marginLeft:"2px"}}
-        onClick={getIngredientsList}> Add ingredient </button>
-        <ul style={{textAlign:"left"}}>
-        {filteredIngredientList}
+        <button
+          style={{ marginLeft: "2px" }}
+          onClick={getIngredientsList}> Add ingredient </button>
+        <ul style={{ textAlign: "left" }}>
+          {filteredIngredientList}
         </ul>
         <label>
           <br />
@@ -172,9 +202,9 @@ const AddRecipe = ({ recipe }) => {
             onChange={(e) => setInstructionsFieldEntry(e.target.value)}
           />
         </label>
-        <button 
-        style={{marginLeft:"2px"}}
-        onClick={getInstructionsList}> Add next step </button>
+        <button
+          style={{ marginLeft: "2px" }}
+          onClick={getInstructionsList}> Add next step </button>
         <ol style={{ textAlign: "left" }}>
           {filteredInstructionList}
         </ol>
