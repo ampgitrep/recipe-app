@@ -1,8 +1,7 @@
 import { useState } from "react";
 import GetRating from "./Rating.js";
 import QuantityBox from "./QuantityBox.js";
-import RadioNodeList from "react";
-
+import Select from "react-select";
 
 const AddRecipe = ({ recipe }) => {
 
@@ -28,14 +27,13 @@ const AddRecipe = ({ recipe }) => {
   const [idNumIns, setIdNumIns] = useState(1)
   const [idNumIng, setIdNumIng] = useState(1)
   const [quantity, setQuantity] = useState(1);
-  const [firstRun, setFirstRun] = useState(true);
+  const [dropDown, setDropDown] = useState(null);
   const handleSubmit = (e) => {
     e.preventDefault();
     //onSubmit handler, increase id # and set array to state object
     setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating })
     recipe(newRecipe);
     clearInputFields();
-    setFirstRun(false);
   };
 
   const options = [
@@ -46,7 +44,7 @@ const AddRecipe = ({ recipe }) => {
     { value: 'each', label: 'each' },
     { value: 'pinch', label: 'pinch' },
     { value: 'taste', label: 'taste' },
-  ]
+  ];
 
   const getIdIns = (idNumIns) => {
     let count = idNumIns + 1;
@@ -74,7 +72,7 @@ const AddRecipe = ({ recipe }) => {
     e.preventDefault();
     const newId = getIdIng(idNumIng);
     const currentList = [...ingredientsList];
-    currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = quantity + " " + ingredientsFieldEntry })
+    currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = quantity + " " + dropDown.value + " " + ingredientsFieldEntry })
     const newList = currentList.filter((e) => {
       return e.id > 0;
     });
@@ -104,9 +102,9 @@ const AddRecipe = ({ recipe }) => {
     setInstructionsFieldEntry("");
   };
   //we want to run once initially, then run without filter
-const filteredInstructionList = instructionsList.filter((e) => {
-  return e.id > 0;
-}).map(({ id, instruction }) => {
+  const filteredInstructionList = instructionsList.filter((e) => {
+    return e.id > 0;
+  }).map(({ id, instruction }) => {
     return (
       <li
         key={instruction}
@@ -171,8 +169,9 @@ const filteredInstructionList = instructionsList.filter((e) => {
           <br />
 
           <QuantityBox getQuantity={getQuantity} />
-          <div>
-
+          <div style={{width: "100px",
+                      marginLeft:"45%"}}>
+          <Select options={options} openonclick={true} value={dropDown} autofocus={true}  onChange={setDropDown}/>
           </div>
           <input
 
