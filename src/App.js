@@ -1,5 +1,6 @@
 import RecipeControl from "./RecipeControl";
 import { Link } from "react-router-dom";
+import WeeklyRecipes from "./WeeklyRecipes";
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
                 paddingBottom: "1rem"}}>  
         
         <Link to="/AddRecipes" element={<RecipeControl/>}>Add New Recipe </Link>
-        </nav>
+        <Link to="/WeeklyRecipes" element={<WeeklyRecipes/>}>Pick your weekly recipes</Link>
+        </nav>  
     </div>
   );
 }

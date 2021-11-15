@@ -11,6 +11,7 @@ const AddRecipe = ({ recipe }) => {
     instructions: [],
     quantity: 0,
     ingredients: [],
+    image: "",
     rating: "",
   });
   const [instructionsList, setInstructionsList] = useState([{
@@ -28,12 +29,23 @@ const AddRecipe = ({ recipe }) => {
   const [idNumIng, setIdNumIng] = useState(1)
   const [quantity, setQuantity] = useState(1);
   const [dropDown, setDropDown] = useState(null);
+  const [image, setImage] = useState(null);
+  const [resetFlag, setResetFlag] = useState(false);
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+      setResetFlag(true);
+    }
+  }
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     //onSubmit handler, increase id # and set array to state object
-    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating })
+    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
     recipe(newRecipe);
     clearInputFields();
+    console.log(newRecipe)
   };
 
   const options = [
@@ -72,7 +84,7 @@ const AddRecipe = ({ recipe }) => {
     e.preventDefault();
     const newId = getIdIng(idNumIng);
     const currentList = [...ingredientsList];
-    currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = quantity + " " + dropDown.value + " " + ingredientsFieldEntry })
+    currentList.push({ id: ingredientsList.id = newId, ingredient: ingredientsList.ingredient = quantity + " " + dropDown.value + " " + ingredientsFieldEntry, })
     const newList = currentList.filter((e) => {
       return e.id > 0;
     });
@@ -126,6 +138,7 @@ const AddRecipe = ({ recipe }) => {
       instructions: [],
       ingredients: [],
       rating: "",
+      image: null,
     })
     setInstructionsList([{
       id: 0,
@@ -137,6 +150,7 @@ const AddRecipe = ({ recipe }) => {
     }]);
     setIdNumIng(1);
     setIdNumIns(1);
+    setResetFlag(false);
   }
   return (
     <div>
@@ -169,9 +183,11 @@ const AddRecipe = ({ recipe }) => {
           <br />
 
           <QuantityBox getQuantity={getQuantity} />
-          <div style={{width: "100px",
-                      marginLeft:"45%"}}>
-          <Select options={options} openonclick={true} value={dropDown} autofocus={true}  onChange={setDropDown}/>
+          <div style={{
+            width: "100px",
+            marginLeft: "45%"
+          }}>
+            <Select options={options} openonclick={true} value={dropDown} autofocus={true} onChange={setDropDown} />
           </div>
           <input
 
@@ -207,6 +223,14 @@ const AddRecipe = ({ recipe }) => {
         <ol style={{ textAlign: "left" }}>
           {filteredInstructionList}
         </ol>
+          
+        <div>
+          {resetFlag === false ?
+             <input type="file" onChange={onImageChange} className="filetype" />
+          : 
+            `✅ image uploaded successfully ` }
+          </div>
+
         <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
       </form>

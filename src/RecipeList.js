@@ -16,7 +16,8 @@ const RecipeList = ({ recipeList, onClick }) => {
       default:
         break;
     }
-  };
+  }
+  
 
   return (
     <div style={{

@@ -2,7 +2,8 @@ import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
+import WeeklyRecipes from "./WeeklyRecipes";
 const RecipeControl = () => {
   const [recipe, setRecipe] = useState(
     {
@@ -22,6 +23,7 @@ const RecipeControl = () => {
     newArray.push(getNewRecipe);
     setPrevArray(newArray);
     setRecipeList(newArray);
+    console.log(recipeList);
     return getNewRecipe;
   }
   
@@ -43,7 +45,8 @@ const RecipeControl = () => {
       <RecipeList onClick={toggleVisibility} recipeList={recipeList} />
       {isActive ?
         <Recipe recipe={recipeList} clickedId={clickedId} /> : null}
-
+       <Link to="/AddRecipes" element={<RecipeControl/>}>Add New Recipe </Link>
+        <Link to="/WeeklyRecipes" element={<WeeklyRecipes/>}>Pick your weekly recipes</Link>
     </div>
   )
 };
