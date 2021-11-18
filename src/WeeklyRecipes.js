@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import RecipeControl from "./RecipeControl";
- import Recipe from "./Recipe";
+import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
+import ShoppingList from "./ShoppingList";
 const fakeDatabase = [{
     id: 0,
     recipeName: "test1",
@@ -66,6 +67,7 @@ const WeeklyRecipes = ({ }) => {
     const [weekList, setWeekList] = useState([])
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
+
     const handleClick = () => {
         const recipeArray = [];
         for (let i = 1; i <= 5; i++) {
@@ -86,38 +88,78 @@ const WeeklyRecipes = ({ }) => {
             alert("5 recipes have already been selected for the week.")
         }
     }
+    const removeFromList = (id) => {
+        const currentArray = [...weekList];
+        setClickedId(id);
+        if (currentArray.includes(fakeDatabase[id])) {
+            currentArray.slice(id);
+            console.log("match")
+        }
+        setWeekList(currentArray);
+    }
 
     const toggleVisibility = (id) => {
         if (id !== clickedId || showRecipe === false) {
-          setClickedId(id);
-          return setShowRecipe(true);
+            setClickedId(id);
+            return setShowRecipe(true);
         }
-        if(id === clickedId && showRecipe === true){
-        return setShowRecipe(false);
-      }
+        if (id === clickedId && showRecipe === true) {
+            return setShowRecipe(false);
+        }
+    }
+    const createShoppingList = () => {
+        const shoppingList = [];
+        const condensedList = [];
+        let num = 0;
+        let s;
+        let split;
+        weekList.forEach(e => {
+            shoppingList.push(e.ingredients)
+        });
+        shoppingList.forEach(e => {
+            s = e.toString();
+            split = s.split(' ');
+            split.forEach(e => {
+                if (e === split[2]) {
+
+                    let newNum = parseInt(split[0]);
+                    num += newNum;
+                }
+
+            })
+            
+        })
+        condensedList.push(num+ " " + split[1] + " " + split[2]);
+        console.log(condensedList);
     }
 
     console.log(weekList);
     return (
-        <div 
-    >
+        <div
+        >
             <ul>
                 <p>Pick your recipes for the week, or pick them at random</p>
                 {fakeDatabase.map(({ rating, recipeName, id, image }) => {
-                   
-                   if(clickedId === id && showRecipe === true){
-                       return <div  onClick={toggleVisibility}
-                                    style={{width:'50%',
-                                            }} ><Recipe clickedId={clickedId} recipe={fakeDatabase}/><button onClick={()=>addToList(id)}>add to list</button></div>
-                       }
-                   return (
-                   <li key={id}       
-                        onClick={() => toggleVisibility(id)}>{recipeName} - {rating} stars</li>
-                )})}
+
+                    if (clickedId === id && showRecipe === true) {
+                        return <div onClick={toggleVisibility}
+                            style={{
+                                width: '50%',
+                            }} ><Recipe clickedId={clickedId} recipe={fakeDatabase} /><button onClick={() => addToList(id)}>add to list</button><button onClick={() => removeFromList(id)}>remove from list</button></div>
+                    }
+                    return (
+                        <li key={id}
+                            onClick={() => toggleVisibility(id)}>{recipeName} - {rating} stars</li>
+                    )
+                })}
             </ul>
             <button onClick={handleClick}>pick recipes for me</button>
-            <br/>
-            <RecipeList recipeList={weekList} onClick={toggleVisibility}/>
+            <br />
+            <div>
+                {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
+
+            </div>
+            <button onClick={createShoppingList}>Create Shopping List </button>
             <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             <Link to="/AddRecipes" element={<RecipeControl />}>Add New Recipe </Link>
             <Link to="/WeeklyRecipes" element={<WeeklyRecipes />}>Pick your weekly recipes</Link>

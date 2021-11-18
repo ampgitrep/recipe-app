@@ -125,7 +125,7 @@ const AddRecipe = ({ recipe }) => {
       >{instruction} </li>
     );
   });
-
+  
   const handleDelete = (id) => {
     console.log("The id you clicked is ", id)
     // filteredInstructionList.splice(id, 1);
