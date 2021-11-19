@@ -7,7 +7,7 @@ import ShoppingList from "./ShoppingList";
 const fakeDatabase = [{
     id: 0,
     recipeName: "test1",
-    ingredients: ["4 cups tests",],
+    ingredients: ["4 oz pepperoni",],
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 4,
@@ -15,14 +15,14 @@ const fakeDatabase = [{
     id: 1,
     recipeName: "test2",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["4 cups tests",],
+    ingredients: ["6 each onions",],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 3,
 }, {
     id: 2,
     recipeName: "test3",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["4 cups tests",],
+    ingredients: ["9 tsps butter",],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 5,
 }, {
@@ -110,7 +110,12 @@ const WeeklyRecipes = ({ }) => {
     const createShoppingList = () => {
         const shoppingList = [];
         const condensedList = [];
-        let num = 0;
+        const listArray = [];
+        let num1 = 0;
+        let num2 = 0;
+        let num3 = 0;
+        let num4 = 0;
+        let num5 = 0;
         let s;
         let split;
         weekList.forEach(e => {
@@ -119,21 +124,36 @@ const WeeklyRecipes = ({ }) => {
         shoppingList.forEach(e => {
             s = e.toString();
             split = s.split(' ');
-            split.forEach(e => {
-                if (e === split[2]) {
-
-                    let newNum = parseInt(split[0]);
-                    num += newNum;
-                }
-
-            })
-            
+            listArray.push(split);
         })
-        condensedList.push(num+ " " + split[1] + " " + split[2]);
-        console.log(condensedList);
+        console.log(listArray)
+        for (let number = 0; number < listArray.length; number++) {
+            //switch case instead of if statement
+            if (listArray[0][2] === listArray[number][2]) {
+                num1 = parseInt(listArray[0][0])
+                num1 += parseInt(listArray[number][0]);
+            }
+            if (listArray[1][2] === listArray[number][2]) {
+                num2 = parseInt(listArray[1][0])
+                num2 += parseInt(listArray[number][0]);
+            }
+            if (listArray[2][2] === listArray[number][2]) {
+                num3 = parseInt(listArray[2][0])
+                num3 += parseInt(listArray[number][0]);
+            }
+            if (listArray[3][2] === listArray[number][2]) {
+                num4 = parseInt(listArray[3][0])
+                num4 += parseInt(listArray[number][0]);
+            }
+            if (listArray[4][2] === listArray[number][2]) {
+                num5 = parseInt(listArray[4][0])
+                num5 += parseInt(listArray[number][0]);
+            }
+        }
+        console.log(num1, num2, num3, num4, num5)
+        
     }
 
-    console.log(weekList);
     return (
         <div
         >
