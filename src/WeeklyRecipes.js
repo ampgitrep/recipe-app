@@ -3,11 +3,17 @@ import { Link } from "react-router-dom";
 import RecipeControl from "./RecipeControl";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
-import ShoppingList from "./ShoppingList";
+
+
+const _ = require("lodash");  
 const fakeDatabase = [{
     id: 0,
     recipeName: "test1",
-    ingredients: ["4 oz pepperoni",],
+    ingredients: [{
+        ingredient: "pineapple",
+        measure: "cups",
+        quantity:4
+    }],
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 4,
@@ -15,49 +21,77 @@ const fakeDatabase = [{
     id: 1,
     recipeName: "test2",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["6 each onions",],
+    ingredients: [{
+        ingredient: "onions",
+        measure: "each",
+        quantity:2
+    }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 3,
 }, {
     id: 2,
     recipeName: "test3",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["9 tsps butter",],
+    ingredients: [{
+        ingredient: "pineapple",
+        measure: "cups",
+        quantity:6
+    }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 5,
 }, {
     id: 3,
     recipeName: "test4",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["4 cups tests",],
+    ingredients: [{
+        ingredient: "spinach",
+        measure: "oz",
+        quantity:10
+    }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 2,
 }, {
     id: 4,
     recipeName: "test5",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["4 cups tests",],
+    ingredients: [{
+        ingredient: "potatoes",
+        measure: "each",
+        quantity:3
+    }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 3,
 }, {
     id: 5,
     recipeName: "test6",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["4 cups tests",],
+    ingredients: [{
+        ingredient: "tomatoes",
+        measure: "each",
+        quantity:4
+    }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 5,
 }, {
     id: 6,
     recipeName: "test7",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["4 cups tests",],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
+    ingredients: [{
+        ingredient: "applesauce",
+        measure: "tbps",
+        quantity:2
+    }],
+        instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 2,
 }, {
     id: 7,
     recipeName: "test8",
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: ["4 cups tests",],
+    ingredients: [{
+        ingredient: "carrots",
+        measure: "cups",
+        quantity:2
+    }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 4,
 }]
@@ -108,50 +142,78 @@ const WeeklyRecipes = ({ }) => {
         }
     }
     const createShoppingList = () => {
-        const shoppingList = [];
-        const condensedList = [];
-        const listArray = [];
-        let num1 = 0;
-        let num2 = 0;
-        let num3 = 0;
-        let num4 = 0;
-        let num5 = 0;
-        let s;
-        let split;
-        weekList.forEach(e => {
-            shoppingList.push(e.ingredients)
-        });
-        shoppingList.forEach(e => {
-            s = e.toString();
-            split = s.split(' ');
-            listArray.push(split);
-        })
-        console.log(listArray)
-        for (let number = 0; number < listArray.length; number++) {
-            //switch case instead of if statement
-            if (listArray[0][2] === listArray[number][2]) {
-                num1 = parseInt(listArray[0][0])
-                num1 += parseInt(listArray[number][0]);
-            }
-            if (listArray[1][2] === listArray[number][2]) {
-                num2 = parseInt(listArray[1][0])
-                num2 += parseInt(listArray[number][0]);
-            }
-            if (listArray[2][2] === listArray[number][2]) {
-                num3 = parseInt(listArray[2][0])
-                num3 += parseInt(listArray[number][0]);
-            }
-            if (listArray[3][2] === listArray[number][2]) {
-                num4 = parseInt(listArray[3][0])
-                num4 += parseInt(listArray[number][0]);
-            }
-            if (listArray[4][2] === listArray[number][2]) {
-                num5 = parseInt(listArray[4][0])
-                num5 += parseInt(listArray[number][0]);
-            }
-        }
-        console.log(num1, num2, num3, num4, num5)
+       const recipeArray = [...weekList];
+       const shoppingList = [];
+       recipeArray.forEach(e => {
+           shoppingList.push(e.ingredients)
+       }) 
+       const flatList = shoppingList.flat();
+       console.log(flatList)
+
+        // weekList.forEach(e => {
+        //     ingredients = {...ingredients, ingredient: ingredient.name = weekList.}
+        // })
+        //  const shoppingList = [];
+        //  const condensedList = [];
+        //  const listArray = [];
+        // // const filteredList = [];
+        //  let num1 = 0;
+        //  let num2 = 0;
+        //  let num3 = 0;
+        //  let num4 = 0;
+        //  let num5 = 0;
+        //  let s;
+        //  let split;
+         
+        //  weekList.forEach(e => {
+        //      shoppingList.push(e.ingredients)
+        //  });
+        //  shoppingList.forEach(e => {
+        //      s = e.toString();
+        //      split = s.split(' ');
+        //      listArray.push(split);
+        //  })
         
+        // console.log(shoppingList)
+
+        //  //  const list = [];
+        // //  for(let i = 0; i < listArray.length; i++){
+        // //    list[i] = listArray[i].join(" ");
+        // //  console.log(list[i])
+        // // }
+        
+        // for (let number = 0; number < listArray.length; number++) {
+        //     if (listArray[0][2] === listArray[number][2]) {
+        //         num1 += parseInt(listArray[number][0]);
+        //         condensedList.push(num1+ " " + listArray[0][1] + " " + listArray[0][2])
+                
+        //     }
+        //     if (listArray[1][2] === listArray[number][2]) {
+        //         num2 += parseInt(listArray[number][0]);
+        //         condensedList.push(num2+ " " + listArray[1][1] + " " + listArray[1][2])
+        //     }
+        //     if (listArray[2][2] === listArray[number][2]) {
+        //         num3 += parseInt(listArray[number][0]);
+        //         condensedList.push(num3+ " " + listArray[2][1] + " " + listArray[2][2])
+        //     }
+        //     if (listArray[3][2] === listArray[number][2]) {
+        //         num4 += parseInt(listArray[number][0]);
+        //         condensedList.push(num4+ " " + listArray[3][1] + " " + listArray[3][2])
+        //     }
+        //     if (listArray[4][2] === listArray[number][2]) {
+        //         num5 += parseInt(listArray[number][0]);
+        //         condensedList.push(num5+ " " + listArray[4][1] + " " + listArray[4][2])
+        //     }
+        // }
+        // const final = []
+        // const reducedList = _.union(condensedList)
+        // console.log(reducedList)
+        // for(let i = 0; i < splitList.length; i++){
+        //     if(splitList[i][0] < splitList[splitList.length][0] && splitList[i][2] === splitList.length[2]){
+        //         final.push(splitList.slice(splitList[i]));
+        //     }
+        // }
+        // console.log(final)
     }
 
     return (

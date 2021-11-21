@@ -7,7 +7,7 @@ import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import RecipeControl from './RecipeControl';
 import WeeklyRecipes from './WeeklyRecipes';
-import ShoppingList from './ShoppingList';
+
 const rootElement = document.getElementById('root');
 
 render(
@@ -16,7 +16,6 @@ render(
    <Route path="/" element={<App/>}/>
    <Route path="AddRecipes" element={<RecipeControl/>} />
    <Route path="WeeklyRecipes" element={<WeeklyRecipes/>} />
-   <Route path="ShoppingList" element={<ShoppingList/>} />
   </Routes>
   </BrowserRouter>,
   rootElement

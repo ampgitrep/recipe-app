@@ -10,7 +10,11 @@ const AddRecipe = ({ recipe }) => {
     recipeName: "",
     instructions: [],
     quantity: 0,
-    ingredients: [],
+    ingredients: [{
+      ingredient: "",
+        measure: "",
+        quantity:0,
+    }],
     image: "",
     rating: "",
   });
@@ -19,8 +23,9 @@ const AddRecipe = ({ recipe }) => {
     instruction: "",
   }]);
   const [ingredientsList, setIngredientsList] = useState([{
-    id: 0,
-    instruction: ""
+    ingredient: "",
+    measure: "",
+    quantity: 0,
   }]);
   const [ingredientsFieldEntry, setIngredientsFieldEntry] = useState("");
   const [instructionsFieldEntry, setInstructionsFieldEntry] = useState("");
