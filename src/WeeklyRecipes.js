@@ -5,14 +5,14 @@ import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
 
 
-const _ = require("lodash");  
+const _ = require("lodash");
 const fakeDatabase = [{
     id: 0,
     recipeName: "test1",
     ingredients: [{
         ingredient: "pineapple",
         measure: "cups",
-        quantity:4
+        quantity: 4
     }],
     image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
@@ -24,7 +24,7 @@ const fakeDatabase = [{
     ingredients: [{
         ingredient: "onions",
         measure: "each",
-        quantity:2
+        quantity: 2
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 3,
@@ -35,7 +35,7 @@ const fakeDatabase = [{
     ingredients: [{
         ingredient: "pineapple",
         measure: "cups",
-        quantity:6
+        quantity: 6
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 5,
@@ -46,7 +46,7 @@ const fakeDatabase = [{
     ingredients: [{
         ingredient: "spinach",
         measure: "oz",
-        quantity:10
+        quantity: 10
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 2,
@@ -57,7 +57,7 @@ const fakeDatabase = [{
     ingredients: [{
         ingredient: "potatoes",
         measure: "each",
-        quantity:3
+        quantity: 3
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 3,
@@ -68,7 +68,7 @@ const fakeDatabase = [{
     ingredients: [{
         ingredient: "tomatoes",
         measure: "each",
-        quantity:4
+        quantity: 4
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 5,
@@ -79,9 +79,9 @@ const fakeDatabase = [{
     ingredients: [{
         ingredient: "applesauce",
         measure: "tbps",
-        quantity:2
+        quantity: 2
     }],
-        instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
+    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 2,
 }, {
     id: 7,
@@ -90,7 +90,7 @@ const fakeDatabase = [{
     ingredients: [{
         ingredient: "carrots",
         measure: "cups",
-        quantity:2
+        quantity: 2
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 4,
@@ -101,11 +101,13 @@ const WeeklyRecipes = ({ }) => {
     const [weekList, setWeekList] = useState([])
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
-
+    const [finalShoppingList, setFinalShoppingList] = useState({})
     const handleClick = () => {
+        const tempArr = [];
         const recipeArray = [];
         for (let i = 1; i <= 5; i++) {
             let randNum = Math.floor((Math.random(fakeDatabase.length) * fakeDatabase.length - 1) + 1);
+
             recipeArray.push(fakeDatabase[randNum])
         }
         setWeekList(recipeArray);
@@ -123,13 +125,15 @@ const WeeklyRecipes = ({ }) => {
         }
     }
     const removeFromList = (id) => {
-        const currentArray = [...weekList];
         setClickedId(id);
-        if (currentArray.includes(fakeDatabase[id])) {
-            currentArray.slice(id);
-            console.log("match")
-        }
+        const currentArray = [...weekList].filter((recipe) => { return recipe.id !== id; });        
         setWeekList(currentArray);
+
+        // const currentArray = [...weekList];
+        // const indexToDelete = currentArray.findIndex(recipe => recipe.id === id);
+
+        // currentArray.slice(indexToDelete, 1);
+
     }
 
     const toggleVisibility = (id) => {
@@ -142,13 +146,87 @@ const WeeklyRecipes = ({ }) => {
         }
     }
     const createShoppingList = () => {
-       const recipeArray = [...weekList];
-       const shoppingList = [];
-       recipeArray.forEach(e => {
-           shoppingList.push(e.ingredients)
-       }) 
-       const flatList = shoppingList.flat();
-       console.log(flatList)
+       //blank object
+        const ingredientsObj = {};
+        //copy state field
+        const recipeArray = [...weekList];
+        //key: ingredients value: recipe
+        recipeArray.forEach(recipe => {
+            const { ingredients } = recipe;
+
+            ingredients.forEach(singleIngred => {
+                if (!ingredientsObj[singleIngred.ingredient]) {
+                    ingredientsObj[singleIngred.ingredient] = [singleIngred];
+                } else {
+                    ingredientsObj[singleIngred.ingredient].push(singleIngred);
+                }
+            });
+        });
+
+        const shoppingList = {};
+
+     //  ingredientsObj = { pineapple: [{ ingredient: 'pineapple', measure: 'cups', quantity: 6 }, { ingredient: 'pineapple', measure: 'cups', quantity: 4 }, { ingredient; }], pudding: [{ ingredient: 'pudding'}] }
+
+        // Object.keys(); // ['pineapple', 'pudding'];
+        // Object.values(); // [[{ ingredient: 'pineapple', measure: 'cups', quantity: 6 }, { ingredient: 'pineapple', measure: 'cups', quantity: 4 }], [{ ingredient: 'pudding'}]]
+        // Object.entries(); // [['pineapple', []], ['pudding', [{ }]]]
+
+        // Object.entries(ingredientsObj).forEach(entryArray => {
+        //     const [entryKey, entryValue] = entryArray;
+        //     const entryKey = entryArray[0]; // "pineapple"
+        //     const entryValue = entryArray[1]; // []
+        //     const measures = {
+        //         cups: 10,
+        //         can: 1,
+        //     };
+
+        //     entryValue.forEach(amount => {
+        //         if (measures[amount.measure]) {
+        //             measures[amount.measure] += amount.quantity;
+        //         } else {
+        //             measures[amount.measure] = amount.quantity;
+        //         }
+        //     });
+
+        //     shoppingList[entryKey] = shoppingListArray.push(`10 cups and 1 can ${entryKey}`);
+        // });
+
+
+
+        // const recipeArray = [...weekList];
+        // const dupArray = []
+        // const shoppingList = []
+        // const notDup = []
+        // //make an array of just ingredients
+        // recipeArray.forEach(e => {
+        //     shoppingList.push(e.ingredients)
+        // })
+        // //flatten out excess arrays to 1 array
+        // const flatList = shoppingList.flat();
+        // let num = 0;
+        // console.log(flatList)
+        // for (let i = 0; i < flatList.length; i++) {
+        //     for (let k = i + 1; k < flatList.length; k++) {
+        //         //if any two elements contain the same ingredient
+        //         if (flatList[i].ingredient === flatList[k].ingredient) {
+        //             //add the quantity of that ingredient up
+        //             num = flatList[i].quantity + flatList[k].quantity
+        //             //push dups to new array    
+        //             dupArray.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: num})
+        //         }
+        //         if(flatList[i].ingredient !== flatList[k].ingredient && notDup.length < flatList.length){
+        //            console.log(`[${i}] ${flatList[i].ingredient} !== [${k}] ${flatList[k].ingredient}`)
+        //            notDup.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: flatList[i].quantity})
+        //            flatList.shift();
+        //         }
+        //         // if(flatList[i].ingredient !== flatList[k].ingredient){
+        //         //     console.log(flatList[i].ingredient)
+        //         // }
+        //     }
+        // }
+        // const set1 = new Set(notDup);
+        // setFinalShoppingList(dupArray)
+        // console.log(dupArray, notDup);
 
         // weekList.forEach(e => {
         //     ingredients = {...ingredients, ingredient: ingredient.name = weekList.}
@@ -164,7 +242,7 @@ const WeeklyRecipes = ({ }) => {
         //  let num5 = 0;
         //  let s;
         //  let split;
-         
+
         //  weekList.forEach(e => {
         //      shoppingList.push(e.ingredients)
         //  });
@@ -173,7 +251,7 @@ const WeeklyRecipes = ({ }) => {
         //      split = s.split(' ');
         //      listArray.push(split);
         //  })
-        
+
         // console.log(shoppingList)
 
         //  //  const list = [];
@@ -181,12 +259,12 @@ const WeeklyRecipes = ({ }) => {
         // //    list[i] = listArray[i].join(" ");
         // //  console.log(list[i])
         // // }
-        
+
         // for (let number = 0; number < listArray.length; number++) {
         //     if (listArray[0][2] === listArray[number][2]) {
         //         num1 += parseInt(listArray[number][0]);
         //         condensedList.push(num1+ " " + listArray[0][1] + " " + listArray[0][2])
-                
+
         //     }
         //     if (listArray[1][2] === listArray[number][2]) {
         //         num2 += parseInt(listArray[number][0]);

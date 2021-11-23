@@ -33,8 +33,9 @@ const AddRecipe = ({ recipe }) => {
   const [idNumIns, setIdNumIns] = useState(1)
   const [idNumIng, setIdNumIng] = useState(1)
   const [quantity, setQuantity] = useState(1);
-  const [dropDown, setDropDown] = useState(null);
+  const [dropDown, setDropDown] = useState({value: 'each', label: 'each'});
   const [image, setImage] = useState(null);
+  const [clicked, setClicked] = useState(false);
   const [resetFlag, setResetFlag] = useState(false);
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -103,9 +104,9 @@ const AddRecipe = ({ recipe }) => {
     return (
       <li
         style={{ marginLeft: "15px" }}
-        key={ingredient} onClick={() => handleDelete(id)}> {ingredient} </li>)
+        key={ingredient} > {ingredient} <button onClick={() => handleDeleteIngredient(id)}>delete</button></li>)
   });
-
+  
   const getInstructionsList = (e) => {
     e.preventDefault();
     const newId = getIdIns(idNumIns);
@@ -118,6 +119,27 @@ const AddRecipe = ({ recipe }) => {
     console.log(instructionsList);
     setInstructionsFieldEntry("");
   };
+  
+  const handleDeleteIngredient = (id) => {
+   const currentList = [...ingredientsList].filter(entry => {return entry.id !== id});
+    // filteredInstructionList.splice(id, 1);
+    setIngredientsList(currentList);
+  };
+  const handleDeleteInstruction = (id) => {
+    const currentList = [...instructionsList].filter(entry => {return entry.id !== id});
+     // filteredInstructionList.splice(id, 1);
+     setInstructionsList(currentList);
+   };
+
+   const styles = {
+     select:{
+    width: '50%',
+    maxWidth: 600,
+    alginItems: 'center',
+    justifyItems: 'center'
+     } 
+  }
+
   //we want to run once initially, then run without filter
   const filteredInstructionList = instructionsList.filter((e) => {
     return e.id > 0;
@@ -126,15 +148,11 @@ const AddRecipe = ({ recipe }) => {
       <li
         key={instruction}
         style={{ marginLeft: "15px" }}
-        onClick={() => handleDelete(id)}
-      >{instruction} </li>
+      >{instruction} <button onClick={() => handleDeleteInstruction(id)}>delete</button></li>
     );
   });
-  
-  const handleDelete = (id) => {
-    console.log("The id you clicked is ", id)
-    // filteredInstructionList.splice(id, 1);
-  };
+
+
 
   const clearInputFields = () => {
     setRecipe({
@@ -187,14 +205,12 @@ const AddRecipe = ({ recipe }) => {
           Ingredients
           <br />
 
-          <QuantityBox getQuantity={getQuantity} />
-          <div style={{
-            width: "100px",
-            marginLeft: "45%"
-          }}>
-            <Select options={options} openonclick={true} value={dropDown} autofocus={true} onChange={setDropDown} />
-          </div>
-          <input
+          <div style={{maxWidth:'100%',
+                      display: 'flex',
+                     justifyContent: 'center'}}>
+            <Select className="dd1" style={styles.select} options={options} placeholder={'each'} defaultValue={dropDown} openonclick={true} value={dropDown} autofocus={true} onChange={setDropDown} />
+            </div>
+          <QuantityBox getQuantity={getQuantity} /><input
 
             type="text"
             name="ingredients"
@@ -225,9 +241,9 @@ const AddRecipe = ({ recipe }) => {
         <button
           style={{ marginLeft: "2px" }}
           onClick={getInstructionsList}> Add next step </button>
-        <ol style={{ textAlign: "left" }}>
+        <ul style={{ textAlign: "left" }}>
           {filteredInstructionList}
-        </ol>
+        </ul>
           
         <div>
           {resetFlag === false ?
