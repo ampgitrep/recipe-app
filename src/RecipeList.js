@@ -23,12 +23,12 @@ const RecipeList = ({ recipeList, onClick }) => {
     <div
       class="tile is-child is-vertical box"
       style={{
-        backgroundImage: `repeating-linear-gradient(to top, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 25px)`,
+        backgroundImage: `repeating-linear-gradient(to top, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 23px)`,
         textAlign: "center",
         border: "1px solid",
         borderRadius: "2px",
       }}>
-      <p class="title">recipe list:</p>
+
       <ul
         style={{ textAlign: "left" }}>
         {recipeList.map(({ recipeName, rating, id }) => (

@@ -8,7 +8,7 @@ import { Columns, Container } from "react-bulma-components";
 
 const _ = require("lodash");
 export const fakeDatabase = [{
-    id: 0,
+    id: 100,
     recipeName: "test1",
     ingredients: [{
         ingredient: "pineapple",
@@ -164,11 +164,11 @@ const WeeklyRecipes = ({ }) => {
         Object.entries(ingredientsObj).forEach(entryArray => {
             const [entryKey, entryValue] = entryArray;
             entryValue.forEach(e => {
-                if(!shoppingList[e.measure]){
+                if (!shoppingList[e.measure]) {
                     shoppingList[e.measure] = [e];
-                 }else{
-                     shoppingList[e.measure].push(e)
-                 }
+                } else {
+                    shoppingList[e.measure].push(e)
+                }
             })
         });
         // shoppingList.forEach(measure => {
@@ -178,41 +178,41 @@ const WeeklyRecipes = ({ }) => {
         const shoppingListString = Object.entries(shoppingList).reduce((accumulator, currentEntryArray) => {
             const measure = currentEntryArray[0];
             const amount = currentEntryArray[1]
-                            if (accumulator.length) {
-                    return `${accumulator} and ${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
-                } else {
-                    return `${accumulator}${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
-                }
+            if (accumulator.length) {
+                return `${accumulator} and ${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
+            } else {
+                return `${accumulator}${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
+            }
         }, '');
-    
-    
 
-       console.log(shoppingListString)
+
+
+        console.log(shoppingListString)
     }
-            
-                // item.forEach(ingredient => {
-                //     if(ingredient.length > 1){
-                //         console.log(ingredient)
-                //     }
-                // })
-    
-               // const entryKey = entryArray[0]; // "pineapple"
-             //   const entryValue = entryArray[1]; // []
-            //     const measures = {
-                //         cups: 10,
-                        // can: 1,
-                    // };
-                
-                    //  entryValue.forEach(amount => {
-                    //          if (measures[amount.measure]) {
-                    // //                 measures[amount.measure] += amount.quantity;
-                    // console.log(measures[amount.measure]);
-                    //          }});// else {
-                    //                     measures[amount.measure] = amount.quantity;
-                    //                 }
-                    //             });
-                            
-                                // shoppingList[entryKey] = shoppingListArray.push(`10 cups and 1 can ${entryKey}`);
+
+    // item.forEach(ingredient => {
+    //     if(ingredient.length > 1){
+    //         console.log(ingredient)
+    //     }
+    // })
+
+    // const entryKey = entryArray[0]; // "pineapple"
+    //   const entryValue = entryArray[1]; // []
+    //     const measures = {
+    //         cups: 10,
+    // can: 1,
+    // };
+
+    //  entryValue.forEach(amount => {
+    //          if (measures[amount.measure]) {
+    // //                 measures[amount.measure] += amount.quantity;
+    // console.log(measures[amount.measure]);
+    //          }});// else {
+    //                     measures[amount.measure] = amount.quantity;
+    //                 }
+    //             });
+
+    // shoppingList[entryKey] = shoppingListArray.push(`10 cups and 1 can ${entryKey}`);
 
 
 
@@ -319,47 +319,45 @@ const WeeklyRecipes = ({ }) => {
 
     return (
         <div>
-         <section class="section is-medium">
-            <div class="tile">
-            <div class="tile is-parent is-vertical is-4">
-            <article class="tile is-child notification is-primary">
-            <ul>
-                <p class="title">Pick your recipes for the week, or pick them at random</p>
-                {fakeDatabase.map(({ rating, recipeName, id, image }) => {
+            <section class="section is-medium">
+                <div class="tile">
+                    <div class="tile is-parent is-vertical is-4">
+                        <article class="tile is-child notification is-primary">
+                            <ul>
+                                <p class="title">Pick your recipes for the week, or pick them at random</p>
+                                {fakeDatabase.map(({ rating, recipeName, id, image }) => {
 
-                    if (clickedId === id && showRecipe === true) {
-                        return <div class="tile is-child box" onClick={toggleVisibility}>
-                            <article class="tile is-child notification is-warning">
-                                <Recipe clickedId={clickedId} recipe={fakeDatabase} />
-                                </article>
-                                <button onClick={() => addToList(id)}>
-                                    add to list
-                                    </button>
-                                    <button onClick={() => removeFromList(id)}>
-                                        remove from list
-                                        </button>
+                                    if (clickedId === id && showRecipe === true) {
+                                        return <div class="tile is-child box" onClick={toggleVisibility}>
+                                            <article class="tile is-child notification is-warning">
+                                                <Recipe clickedId={clickedId} recipe={fakeDatabase} />
+                                            </article>
+                                            <button onClick={() => addToList(id)}>
+                                                add to list
+                                            </button>
+                                            <button onClick={() => removeFromList(id)}>
+                                                remove from list
+                                            </button>
                                         </div>
-                    }
-                    return (
-                        <li key={id}
-                            onClick={() => toggleVisibility(id)}>{recipeName} - {rating} stars</li>
-                    )
-                })}
-            </ul>
-            </article>
-            </div>
-            </div>
-            <button onClick={handleClick}>pick recipes for me</button>
-            <br />
-            <div class="tile is-4">
-                {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
+                                    }
+                                    return (
+                                        <li key={id}
+                                            onClick={() => toggleVisibility(id)}>{recipeName} - {rating} stars</li>
+                                    )
+                                })}
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+                <button onClick={handleClick}>pick recipes for me</button>
+                <br />
+                <div class="tile is-4">
+                    {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
 
-            </div>
-            <button onClick={createShoppingList}>Create Shopping List </button>
-            <br />
-            <Link to="/AddRecipes" element={<RecipeControl />}>Add New Recipe </Link>
-            <Link to="/WeeklyRecipes" element={<WeeklyRecipes />}>Pick your weekly recipes</Link>
-                </section>
+                </div>
+                <button onClick={createShoppingList}>Create Shopping List </button>
+                <br />
+            </section>
         </div>
     )
 }

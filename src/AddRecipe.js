@@ -13,8 +13,8 @@ const AddRecipe = ({ recipe, }) => {
     quantity: 0,
     ingredients: [{
       ingredient: "",
-        measure: "",
-        quantity:0,
+      measure: "",
+      quantity: 0,
     }],
     image: "",
     rating: "",
@@ -34,7 +34,7 @@ const AddRecipe = ({ recipe, }) => {
   const [idNumIns, setIdNumIns] = useState(1)
   const [idNumIng, setIdNumIng] = useState(1)
   const [quantity, setQuantity] = useState(1);
-  const [dropDown, setDropDown] = useState({value: 'each', label: 'each'});
+  const [dropDown, setDropDown] = useState({ value: 'each', label: 'each' });
   const [image, setImage] = useState(null);
   const [clicked, setClicked] = useState(false);
   const [resetFlag, setResetFlag] = useState(false);
@@ -107,7 +107,7 @@ const AddRecipe = ({ recipe, }) => {
         style={{ marginLeft: "15px" }}
         key={ingredient} >{quantity} {measure} {ingredient} <button onClick={() => handleDeleteIngredient(id)}>delete</button></li>)
   });
-  
+
   const getInstructionsList = (e) => {
     e.preventDefault();
     const newId = getIdIns(idNumIns);
@@ -117,28 +117,28 @@ const AddRecipe = ({ recipe, }) => {
       return e.id > 0;
     });
     setInstructionsList(newList);
-  
+
     setInstructionsFieldEntry("");
   };
-  
+
   const handleDeleteIngredient = (id) => {
-   const currentList = [...ingredientsList].filter(entry => {return entry.id !== id});
+    const currentList = [...ingredientsList].filter(entry => { return entry.id !== id });
     // filteredInstructionList.splice(id, 1);
     setIngredientsList(currentList);
   };
   const handleDeleteInstruction = (id) => {
-    const currentList = [...instructionsList].filter(entry => {return entry.id !== id});
-     // filteredInstructionList.splice(id, 1);
-     setInstructionsList(currentList);
-   };
+    const currentList = [...instructionsList].filter(entry => { return entry.id !== id });
+    // filteredInstructionList.splice(id, 1);
+    setInstructionsList(currentList);
+  };
 
-   const styles = {
-     select:{
-    width: '50%',
-    maxWidth: 600,
-    alginItems: 'center',
-    justifyItems: 'center'
-     } 
+  const styles = {
+    select: {
+      width: '50%',
+      maxWidth: 600,
+      alginItems: 'center',
+      justifyItems: 'center'
+    }
   }
 
   //we want to run once initially, then run without filter
@@ -177,75 +177,70 @@ const AddRecipe = ({ recipe, }) => {
     setResetFlag(false);
   }
   return (
-    <div>
-      <p style={{
-      }}>Add New Recipe</p>
+    <div class="tile box is-vertical">
+      <p class="label"> Add Recipe </p>
       <form onSubmit={handleSubmit}
         style={{
-          backgroundColor: "#C7F9FF",
-          textAlign: "center",
-          border: "1px solid",
-          borderRadius: "2px",
+          backgroundColor: "#CFFFFF",
+          textAlign: "center"
         }}>
-        <label>
+        <label class="label">
           Recipe Name
-          <br />
-          <input
-            type="text"
-            name="recipeName"
-            placeholder="recipe name"
-            value={newRecipe.recipeName}
-            onChange={(e) => setRecipe({ ...newRecipe, recipeName: newRecipe.recipeName = e.target.value })}
-          />
         </label>
-        <br />
-        <label>
+        <input
+          type="text"
+          name="recipeName"
+          placeholder="recipe name"
+          value={newRecipe.recipeName}
+          onChange={(e) => setRecipe({ ...newRecipe, recipeName: newRecipe.recipeName = e.target.value })}
+        />
+        <label class="label">
           Ingredients
-          <br />
-
-          <div style={{
-                      display: 'flex',
-                     justifyContent: 'center'}}>
-            <Select className="dd1" style={styles.select} options={options} placeholder={'each'} defaultValue={dropDown} openonclick={true} value={dropDown} autofocus={true} onChange={setDropDown} />
-            </div>
-          <QuantityBox getQuantity={getQuantity} /><input
-
-            type="text"
-            name="ingredients"
-            placeholder="ingredients"
-            value={ingredientsFieldEntry}
-            onChange={(e) => setIngredientsFieldEntry(e.target.value)}
-          />
-
         </label>
+
+
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          <Select className="dd1" style={styles.select} options={options} placeholder={'each'} defaultValue={dropDown} openonclick={true} value={dropDown} autofocus={true} onChange={setDropDown} />
+        </div>
+        <QuantityBox getQuantity={getQuantity} /><input
+
+          type="text"
+          name="ingredients"
+          placeholder="ingredients"
+          value={ingredientsFieldEntry}
+          onChange={(e) => setIngredientsFieldEntry(e.target.value)}
+        />
+
         <button
           style={{ marginLeft: "2px" }}
           onClick={getIngredientsList}> Add ingredient </button>
         <ul style={{ textAlign: "left" }}>
           {filteredIngredientList}
         </ul>
-        <label>
-          <br />
+        <label class="label">
+
           Instructions
-          <br />
-          <input
-            type="text"
-            name="instructions"
-            placeholder="instructions"
-            value={instructionsFieldEntry}
-            onChange={(e) => setInstructionsFieldEntry(e.target.value)}
-          />
         </label>
+        <input
+          type="text"
+          name="instructions"
+          placeholder="instructions"
+          value={instructionsFieldEntry}
+          onChange={(e) => setInstructionsFieldEntry(e.target.value)}
+        />
         <button
           style={{ marginLeft: "2px" }}
           onClick={getInstructionsList}> Add next step </button>
         <ul style={{ textAlign: "left" }}>
           {filteredInstructionList}
         </ul>
-          {resetFlag === false ?
-             <input type="file" onChange={onImageChange} className="filetype" />
-             : 
-             `✅ image uploaded successfully ` }
+        {resetFlag === false ?
+          <input type="file" onChange={onImageChange} className="filetype" />
+          :
+          `✅ image uploaded successfully `}
         <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
       </form>

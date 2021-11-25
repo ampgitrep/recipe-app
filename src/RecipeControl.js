@@ -3,8 +3,8 @@ import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import WeeklyRecipes from "./WeeklyRecipes";
 import { Columns, Container } from "react-bulma-components";
+import WeeklyRecipes from "./WeeklyRecipes";
 import { fakeDatabase } from "./WeeklyRecipes";
 const RecipeControl = () => {
   const [recipe, setRecipe] = useState(
@@ -43,22 +43,27 @@ const RecipeControl = () => {
 
   return (
     <div>
-      <Container>
+      <Container class="box notification is-warning">
         <Columns>
           <Columns.Column>
-            <p class="title">First column</p>
+            <div class="tile is-vertical box is-12">
+              {isActive ?
+                <Recipe recipe={recipeList} clickedId={clickedId} /> :
+                <img src="https://cdn9.dissolve.com/p/D2115_189_697/D2115_189_697_1200.jpg" />
+              }
+            </div>
           </Columns.Column>
           <Columns.Column>
             <AddRecipe recipe={getRecipe} />
           </Columns.Column>
           <Columns.Column>
-            <RecipeList onClick={toggleVisibility} recipeList={recipeList} fakeDatabase={fakeDatabase} />
+            <div class="tile is-vertical box is-12">
+              <p class="title">Recipe List</p>
+              <RecipeList onClick={toggleVisibility} recipeList={recipeList} fakeDatabase={fakeDatabase} />
+            </div>
           </Columns.Column>
         </Columns>
-        {isActive ?
-          <Recipe recipe={recipeList} clickedId={clickedId} /> : null}
-        <Link to="/AddRecipes" element={<RecipeControl />}>Add New Recipe </Link>
-        <Link to="/WeeklyRecipes" element={<WeeklyRecipes />}>Pick your weekly recipes</Link>
+        <WeeklyRecipes />
       </Container>
     </div>
   )
