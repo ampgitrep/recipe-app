@@ -324,7 +324,7 @@ const WeeklyRecipes = ({ }) => {
             <div class="tile is-parent is-vertical is-4">
             <article class="tile is-child notification is-primary">
             <ul>
-                <p>Pick your recipes for the week, or pick them at random</p>
+                <p class="title">Pick your recipes for the week, or pick them at random</p>
                 {fakeDatabase.map(({ rating, recipeName, id, image }) => {
 
                     if (clickedId === id && showRecipe === true) {
@@ -351,7 +351,7 @@ const WeeklyRecipes = ({ }) => {
             </div>
             <button onClick={handleClick}>pick recipes for me</button>
             <br />
-            <div>
+            <div class="tile is-4">
                 {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
 
             </div>
