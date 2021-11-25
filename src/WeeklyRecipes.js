@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import RecipeControl from "./RecipeControl";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
+import { Columns, Container } from "react-bulma-components";
 
 
 const _ = require("lodash");
-const fakeDatabase = [{
+export const fakeDatabase = [{
     id: 0,
     recipeName: "test1",
     ingredients: [{
@@ -75,7 +76,7 @@ const fakeDatabase = [{
 }, {
     id: 6,
     recipeName: "test7",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "blob:http://localhost:3000/d508cfff-be6e-49df-acf3-d3d4874049eb",
     ingredients: [{
         ingredient: "applesauce",
         measure: "tbps",
@@ -126,7 +127,7 @@ const WeeklyRecipes = ({ }) => {
     }
     const removeFromList = (id) => {
         setClickedId(id);
-        const currentArray = [...weekList].filter((recipe) => { return recipe.id !== id; });        
+        const currentArray = [...weekList].filter((recipe) => { return recipe.id !== id; });
         setWeekList(currentArray);
 
         // const currentArray = [...weekList];
@@ -146,14 +147,10 @@ const WeeklyRecipes = ({ }) => {
         }
     }
     const createShoppingList = () => {
-       //blank object
         const ingredientsObj = {};
-        //copy state field
         const recipeArray = [...weekList];
-        //key: ingredients value: recipe
         recipeArray.forEach(recipe => {
             const { ingredients } = recipe;
-
             ingredients.forEach(singleIngred => {
                 if (!ingredientsObj[singleIngred.ingredient]) {
                     ingredientsObj[singleIngred.ingredient] = [singleIngred];
@@ -162,150 +159,186 @@ const WeeklyRecipes = ({ }) => {
                 }
             });
         });
-
         const shoppingList = {};
-
-     //  ingredientsObj = { pineapple: [{ ingredient: 'pineapple', measure: 'cups', quantity: 6 }, { ingredient: 'pineapple', measure: 'cups', quantity: 4 }, { ingredient; }], pudding: [{ ingredient: 'pudding'}] }
-
-        // Object.keys(); // ['pineapple', 'pudding'];
-        // Object.values(); // [[{ ingredient: 'pineapple', measure: 'cups', quantity: 6 }, { ingredient: 'pineapple', measure: 'cups', quantity: 4 }], [{ ingredient: 'pudding'}]]
-        // Object.entries(); // [['pineapple', []], ['pudding', [{ }]]]
-
-        // Object.entries(ingredientsObj).forEach(entryArray => {
-        //     const [entryKey, entryValue] = entryArray;
-        //     const entryKey = entryArray[0]; // "pineapple"
-        //     const entryValue = entryArray[1]; // []
-        //     const measures = {
-        //         cups: 10,
-        //         can: 1,
-        //     };
-
-        //     entryValue.forEach(amount => {
-        //         if (measures[amount.measure]) {
-        //             measures[amount.measure] += amount.quantity;
-        //         } else {
-        //             measures[amount.measure] = amount.quantity;
-        //         }
-        //     });
-
-        //     shoppingList[entryKey] = shoppingListArray.push(`10 cups and 1 can ${entryKey}`);
-        // });
-
-
-
-        // const recipeArray = [...weekList];
-        // const dupArray = []
-        // const shoppingList = []
-        // const notDup = []
-        // //make an array of just ingredients
-        // recipeArray.forEach(e => {
-        //     shoppingList.push(e.ingredients)
+        let num = 0;
+        Object.entries(ingredientsObj).forEach(entryArray => {
+            const [entryKey, entryValue] = entryArray;
+            entryValue.forEach(e => {
+                if(!shoppingList[e.measure]){
+                    shoppingList[e.measure] = [e];
+                 }else{
+                     shoppingList[e.measure].push(e)
+                 }
+            })
+        });
+        // shoppingList.forEach(measure => {
+        //     console.log(measure)
         // })
-        // //flatten out excess arrays to 1 array
-        // const flatList = shoppingList.flat();
-        // let num = 0;
-        // console.log(flatList)
-        // for (let i = 0; i < flatList.length; i++) {
-        //     for (let k = i + 1; k < flatList.length; k++) {
-        //         //if any two elements contain the same ingredient
-        //         if (flatList[i].ingredient === flatList[k].ingredient) {
-        //             //add the quantity of that ingredient up
-        //             num = flatList[i].quantity + flatList[k].quantity
-        //             //push dups to new array    
-        //             dupArray.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: num})
-        //         }
-        //         if(flatList[i].ingredient !== flatList[k].ingredient && notDup.length < flatList.length){
-        //            console.log(`[${i}] ${flatList[i].ingredient} !== [${k}] ${flatList[k].ingredient}`)
-        //            notDup.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: flatList[i].quantity})
-        //            flatList.shift();
-        //         }
-        //         // if(flatList[i].ingredient !== flatList[k].ingredient){
-        //         //     console.log(flatList[i].ingredient)
-        //         // }
-        //     }
-        // }
-        // const set1 = new Set(notDup);
-        // setFinalShoppingList(dupArray)
-        // console.log(dupArray, notDup);
+        console.log(Object.entries(shoppingList));
+        const shoppingListString = Object.entries(shoppingList).reduce((accumulator, currentEntryArray) => {
+            const measure = currentEntryArray[0];
+            const amount = currentEntryArray[1]
+                            if (accumulator.length) {
+                    return `${accumulator} and ${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
+                } else {
+                    return `${accumulator}${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
+                }
+        }, '');
+    
+    
 
-        // weekList.forEach(e => {
-        //     ingredients = {...ingredients, ingredient: ingredient.name = weekList.}
-        // })
-        //  const shoppingList = [];
-        //  const condensedList = [];
-        //  const listArray = [];
-        // // const filteredList = [];
-        //  let num1 = 0;
-        //  let num2 = 0;
-        //  let num3 = 0;
-        //  let num4 = 0;
-        //  let num5 = 0;
-        //  let s;
-        //  let split;
-
-        //  weekList.forEach(e => {
-        //      shoppingList.push(e.ingredients)
-        //  });
-        //  shoppingList.forEach(e => {
-        //      s = e.toString();
-        //      split = s.split(' ');
-        //      listArray.push(split);
-        //  })
-
-        // console.log(shoppingList)
-
-        //  //  const list = [];
-        // //  for(let i = 0; i < listArray.length; i++){
-        // //    list[i] = listArray[i].join(" ");
-        // //  console.log(list[i])
-        // // }
-
-        // for (let number = 0; number < listArray.length; number++) {
-        //     if (listArray[0][2] === listArray[number][2]) {
-        //         num1 += parseInt(listArray[number][0]);
-        //         condensedList.push(num1+ " " + listArray[0][1] + " " + listArray[0][2])
-
-        //     }
-        //     if (listArray[1][2] === listArray[number][2]) {
-        //         num2 += parseInt(listArray[number][0]);
-        //         condensedList.push(num2+ " " + listArray[1][1] + " " + listArray[1][2])
-        //     }
-        //     if (listArray[2][2] === listArray[number][2]) {
-        //         num3 += parseInt(listArray[number][0]);
-        //         condensedList.push(num3+ " " + listArray[2][1] + " " + listArray[2][2])
-        //     }
-        //     if (listArray[3][2] === listArray[number][2]) {
-        //         num4 += parseInt(listArray[number][0]);
-        //         condensedList.push(num4+ " " + listArray[3][1] + " " + listArray[3][2])
-        //     }
-        //     if (listArray[4][2] === listArray[number][2]) {
-        //         num5 += parseInt(listArray[number][0]);
-        //         condensedList.push(num5+ " " + listArray[4][1] + " " + listArray[4][2])
-        //     }
-        // }
-        // const final = []
-        // const reducedList = _.union(condensedList)
-        // console.log(reducedList)
-        // for(let i = 0; i < splitList.length; i++){
-        //     if(splitList[i][0] < splitList[splitList.length][0] && splitList[i][2] === splitList.length[2]){
-        //         final.push(splitList.slice(splitList[i]));
-        //     }
-        // }
-        // console.log(final)
+       console.log(shoppingListString)
     }
+            
+                // item.forEach(ingredient => {
+                //     if(ingredient.length > 1){
+                //         console.log(ingredient)
+                //     }
+                // })
+    
+               // const entryKey = entryArray[0]; // "pineapple"
+             //   const entryValue = entryArray[1]; // []
+            //     const measures = {
+                //         cups: 10,
+                        // can: 1,
+                    // };
+                
+                    //  entryValue.forEach(amount => {
+                    //          if (measures[amount.measure]) {
+                    // //                 measures[amount.measure] += amount.quantity;
+                    // console.log(measures[amount.measure]);
+                    //          }});// else {
+                    //                     measures[amount.measure] = amount.quantity;
+                    //                 }
+                    //             });
+                            
+                                // shoppingList[entryKey] = shoppingListArray.push(`10 cups and 1 can ${entryKey}`);
+
+
+
+    // const recipeArray = [...weekList];
+    // const dupArray = []
+    // const shoppingList = []
+    // const notDup = []
+    // //make an array of just ingredients
+    // recipeArray.forEach(e => {
+    //     shoppingList.push(e.ingredients)
+    // })
+    // //flatten out excess arrays to 1 array
+    // const flatList = shoppingList.flat();
+    // let num = 0;
+    // console.log(flatList)
+    // for (let i = 0; i < flatList.length; i++) {
+    //     for (let k = i + 1; k < flatList.length; k++) {
+    //         //if any two elements contain the same ingredient
+    //         if (flatList[i].ingredient === flatList[k].ingredient) {
+    //             //add the quantity of that ingredient up
+    //             num = flatList[i].quantity + flatList[k].quantity
+    //             //push dups to new array    
+    //             dupArray.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: num})
+    //         }
+    //         if(flatList[i].ingredient !== flatList[k].ingredient && notDup.length < flatList.length){
+    //            console.log(`[${i}] ${flatList[i].ingredient} !== [${k}] ${flatList[k].ingredient}`)
+    //            notDup.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: flatList[i].quantity})
+    //            flatList.shift();
+    //         }
+    //         // if(flatList[i].ingredient !== flatList[k].ingredient){
+    //         //     console.log(flatList[i].ingredient)
+    //         // }
+    //     }
+    // }
+    // const set1 = new Set(notDup);
+    // setFinalShoppingList(dupArray)
+    // console.log(dupArray, notDup);
+
+    // weekList.forEach(e => {
+    //     ingredients = {...ingredients, ingredient: ingredient.name = weekList.}
+    // })
+    //  const shoppingList = [];
+    //  const condensedList = [];
+    //  const listArray = [];
+    // // const filteredList = [];
+    //  let num1 = 0;
+    //  let num2 = 0;
+    //  let num3 = 0;
+    //  let num4 = 0;
+    //  let num5 = 0;
+    //  let s;
+    //  let split;
+
+    //  weekList.forEach(e => {
+    //      shoppingList.push(e.ingredients)
+    //  });
+    //  shoppingList.forEach(e => {
+    //      s = e.toString();
+    //      split = s.split(' ');
+    //      listArray.push(split);
+    //  })
+
+    // console.log(shoppingList)
+
+    //  //  const list = [];
+    // //  for(let i = 0; i < listArray.length; i++){
+    // //    list[i] = listArray[i].join(" ");
+    // //  console.log(list[i])
+    // // }
+
+    // for (let number = 0; number < listArray.length; number++) {
+    //     if (listArray[0][2] === listArray[number][2]) {
+    //         num1 += parseInt(listArray[number][0]);
+    //         condensedList.push(num1+ " " + listArray[0][1] + " " + listArray[0][2])
+
+    //     }
+    //     if (listArray[1][2] === listArray[number][2]) {
+    //         num2 += parseInt(listArray[number][0]);
+    //         condensedList.push(num2+ " " + listArray[1][1] + " " + listArray[1][2])
+    //     }
+    //     if (listArray[2][2] === listArray[number][2]) {
+    //         num3 += parseInt(listArray[number][0]);
+    //         condensedList.push(num3+ " " + listArray[2][1] + " " + listArray[2][2])
+    //     }
+    //     if (listArray[3][2] === listArray[number][2]) {
+    //         num4 += parseInt(listArray[number][0]);
+    //         condensedList.push(num4+ " " + listArray[3][1] + " " + listArray[3][2])
+    //     }
+    //     if (listArray[4][2] === listArray[number][2]) {
+    //         num5 += parseInt(listArray[number][0]);
+    //         condensedList.push(num5+ " " + listArray[4][1] + " " + listArray[4][2])
+    //     }
+    // }
+    // const final = []
+    // const reducedList = _.union(condensedList)
+    // console.log(reducedList)
+    // for(let i = 0; i < splitList.length; i++){
+    //     if(splitList[i][0] < splitList[splitList.length][0] && splitList[i][2] === splitList.length[2]){
+    //         final.push(splitList.slice(splitList[i]));
+    //     }
+    // }
+    // console.log(final)
+
 
     return (
-        <div
-        >
+        <div>
+         <section class="section is-medium">
+            <div class="tile">
+            <div class="tile is-parent is-vertical is-4">
+            <article class="tile is-child notification is-primary">
             <ul>
                 <p>Pick your recipes for the week, or pick them at random</p>
                 {fakeDatabase.map(({ rating, recipeName, id, image }) => {
 
                     if (clickedId === id && showRecipe === true) {
-                        return <div onClick={toggleVisibility}
-                            style={{
-                                width: '50%',
-                            }} ><Recipe clickedId={clickedId} recipe={fakeDatabase} /><button onClick={() => addToList(id)}>add to list</button><button onClick={() => removeFromList(id)}>remove from list</button></div>
+                        return <div class="tile is-child box" onClick={toggleVisibility}>
+                            <article class="tile is-child notification is-warning">
+                                <Recipe clickedId={clickedId} recipe={fakeDatabase} />
+                                </article>
+                                <button onClick={() => addToList(id)}>
+                                    add to list
+                                    </button>
+                                    <button onClick={() => removeFromList(id)}>
+                                        remove from list
+                                        </button>
+                                        </div>
                     }
                     return (
                         <li key={id}
@@ -313,6 +346,9 @@ const WeeklyRecipes = ({ }) => {
                     )
                 })}
             </ul>
+            </article>
+            </div>
+            </div>
             <button onClick={handleClick}>pick recipes for me</button>
             <br />
             <div>
@@ -320,9 +356,10 @@ const WeeklyRecipes = ({ }) => {
 
             </div>
             <button onClick={createShoppingList}>Create Shopping List </button>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <br />
             <Link to="/AddRecipes" element={<RecipeControl />}>Add New Recipe </Link>
             <Link to="/WeeklyRecipes" element={<WeeklyRecipes />}>Pick your weekly recipes</Link>
+                </section>
         </div>
     )
 }

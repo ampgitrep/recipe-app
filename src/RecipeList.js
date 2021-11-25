@@ -17,21 +17,22 @@ const RecipeList = ({ recipeList, onClick }) => {
         break;
     }
   }
-  
+
 
   return (
-    <div style={{
-      backgroundImage: `repeating-linear-gradient(to bottom, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 18px)`,
-      textAlign: "center",
-      border: "1px solid",
-      borderRadius: "2px",
-      width: '30%',
-    }}>
-      recipe list:
+    <div
+      class="tile is-child is-vertical box"
+      style={{
+        backgroundImage: `repeating-linear-gradient(to top, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 25px)`,
+        textAlign: "center",
+        border: "1px solid",
+        borderRadius: "2px",
+      }}>
+      <p class="title">recipe list:</p>
       <ul
         style={{ textAlign: "left" }}>
         {recipeList.map(({ recipeName, rating, id }) => (
-          <li onClick={()=>onClick(id)}>{recipeName} - {getStars(rating)}</li>
+          <li onClick={() => onClick(id)}>{recipeName} - {getStars(rating)}</li>
         ))}
       </ul>
     </div>

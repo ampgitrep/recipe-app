@@ -4,6 +4,8 @@ import AddRecipe from "./AddRecipe";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import WeeklyRecipes from "./WeeklyRecipes";
+import { Columns, Container } from "react-bulma-components";
+import { fakeDatabase } from "./WeeklyRecipes";
 const RecipeControl = () => {
   const [recipe, setRecipe] = useState(
     {
@@ -14,7 +16,7 @@ const RecipeControl = () => {
     }
   )
   const [isActive, setIsActive] = useState(false);
-  const [prevArray, setPrevArray] = useState("");
+  const [prevArray, setPrevArray] = useState(fakeDatabase);
   const [recipeList, setRecipeList] = useState([...prevArray]);
   const [clickedId, setClickedId] = useState("")
   const getRecipe = (getNewRecipe) => {
@@ -26,27 +28,38 @@ const RecipeControl = () => {
     console.log(recipeList);
     return getNewRecipe;
   }
-  
-  
+
+
   const toggleVisibility = (id) => {
     if (id !== clickedId || isActive === false) {
       setClickedId(id);
       return setIsActive(true);
     }
-    if(id === clickedId){
-    return setIsActive(false);
+    if (id === clickedId) {
+      return setIsActive(false);
+    }
   }
-}
 
 
   return (
     <div>
-      <AddRecipe recipe={getRecipe} />
-      <RecipeList onClick={toggleVisibility} recipeList={recipeList} />
-      {isActive ?
-        <Recipe recipe={recipeList} clickedId={clickedId} /> : null}
-       <Link to="/AddRecipes" element={<RecipeControl/>}>Add New Recipe </Link>
-        <Link to="/WeeklyRecipes" element={<WeeklyRecipes/>}>Pick your weekly recipes</Link>
+      <Container>
+        <Columns>
+          <Columns.Column>
+            <p class="title">First column</p>
+          </Columns.Column>
+          <Columns.Column>
+            <AddRecipe recipe={getRecipe} />
+          </Columns.Column>
+          <Columns.Column>
+            <RecipeList onClick={toggleVisibility} recipeList={recipeList} fakeDatabase={fakeDatabase} />
+          </Columns.Column>
+        </Columns>
+        {isActive ?
+          <Recipe recipe={recipeList} clickedId={clickedId} /> : null}
+        <Link to="/AddRecipes" element={<RecipeControl />}>Add New Recipe </Link>
+        <Link to="/WeeklyRecipes" element={<WeeklyRecipes />}>Pick your weekly recipes</Link>
+      </Container>
     </div>
   )
 };

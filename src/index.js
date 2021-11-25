@@ -11,12 +11,12 @@ import WeeklyRecipes from './WeeklyRecipes';
 const rootElement = document.getElementById('root');
 
 render(
-  <BrowserRouter> 
-  <Routes>
-   <Route path="/" element={<App/>}/>
-   <Route path="AddRecipes" element={<RecipeControl/>} />
-   <Route path="WeeklyRecipes" element={<WeeklyRecipes/>} />
-  </Routes>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="AddRecipes" element={<RecipeControl />} />
+      <Route path="WeeklyRecipes" element={<WeeklyRecipes />} />
+    </Routes>
   </BrowserRouter>,
   rootElement
 )

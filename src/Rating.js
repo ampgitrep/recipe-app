@@ -15,4 +15,4 @@ export default function GetRating({ getRating }) {
       <Rating onClick={handleRating} ratingValue={rating} />
     </div>
   )
-} 
+}
