@@ -1,22 +1,15 @@
 import RecipeControl from "./RecipeControl";
 import { Link } from "react-router-dom";
 import WeeklyRecipes from "./WeeklyRecipes";
-
+import Login from "./Login.js";
 function App() {
   return (
     <div className="App"
     >
       <header className="App-header">
+     <Login />
       </header>
-      <nav
-        style={{
-          borderBottom: "solid 1px",
-          paddingBottom: "1rem"
-        }}>
-
-        <Link to="/AddRecipes" element={<RecipeControl />}>Add New Recipe </Link>
-        <Link to="/WeeklyRecipes" element={<WeeklyRecipes />}>Pick your weekly recipes</Link>
-      </nav>
+       <RecipeControl />
     </div>
   );
 }
