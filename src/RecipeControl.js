@@ -43,13 +43,16 @@ const RecipeControl = () => {
 
   return (
     <div>
+      <Container class="box notification is-primary">
       <Container class="box notification is-warning">
         <Columns>
           <Columns.Column>
-            <div class="tile is-vertical box is-12">
+            <div class="tile is-vertical box is-12 ">
               {isActive ?
                 <Recipe recipe={recipeList} clickedId={clickedId} /> :
+                <figure class="image is-4by3">
                 <img src="https://cdn9.dissolve.com/p/D2115_189_697/D2115_189_697_1200.jpg" />
+                </figure>
               }
             </div>
           </Columns.Column>
@@ -64,6 +67,7 @@ const RecipeControl = () => {
           </Columns.Column>
         </Columns>
         <WeeklyRecipes />
+      </Container>
       </Container>
     </div>
   )

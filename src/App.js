@@ -6,9 +6,16 @@ function App() {
   return (
     <div className="App"
     >
-      <header className="App-header">
+      <section class="hero has-background-primary">
+        <div class="hero-header">
+          <p class="title has-text-black has-text-centered">
+            Recipe-App
+            </p>
+          </div>
+        <div class="hero-body">
      <Login />
-      </header>
+     </div>
+      </section>
        <RecipeControl />
     </div>
   );

@@ -321,7 +321,7 @@ const WeeklyRecipes = ({ }) => {
         <div>
             <section class="section is-medium">
                 <div class="tile">
-                    <div class="tile is-parent is-vertical is-4">
+                    <div class="tile is-parent is-vertical is-4 is-primary">
                         <article class="tile is-child notification is-primary">
                             <ul>
                                 <p class="title">Pick your recipes for the week, or pick them at random</p>

@@ -3,13 +3,13 @@ const Recipe = ({ clickedId, recipe }) => {
 
   return (
     <div>
+      <p class="title"> Recipe:</p>
     <div style={{
       backgroundImage: `repeating-linear-gradient(to top, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 20px)`,
       textAlign: "center",
       border: "1px solid",
       borderRadius: "2px",
     }}>
-      <p class="title"> Recipe:</p>
         id:  {recipe[clickedId].id} - name: {recipe[clickedId].recipeName}
         <br />
         ingredients:
