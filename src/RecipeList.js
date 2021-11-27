@@ -21,13 +21,8 @@ const RecipeList = ({ recipeList, onClick }) => {
 
   return (
     <div
-      class="tile is-child is-vertical box"
-      style={{
-        backgroundImage: `repeating-linear-gradient(to top, #00FF3C, #00FF3C 1px, #FFFFFF 1px, #FFFFFF 23px)`,
-        textAlign: "center",
-        border: "1px solid",
-        borderRadius: "2px",
-      }}>
+      class="tile is-child is-vertical has-background-primary-light box"
+      >
 
       <ul
         style={{ textAlign: "left" }}>

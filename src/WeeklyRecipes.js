@@ -8,7 +8,7 @@ import { Columns, Container } from "react-bulma-components";
 
 const _ = require("lodash");
 export const fakeDatabase = [{
-    id: 100,
+    id: 0,
     recipeName: "test1",
     ingredients: [{
         ingredient: "pineapple",
@@ -174,20 +174,75 @@ const WeeklyRecipes = ({ }) => {
         // shoppingList.forEach(measure => {
         //     console.log(measure)
         // })
-        console.log(Object.entries(shoppingList));
+        console.log(shoppingList);
         const shoppingListString = Object.entries(shoppingList).reduce((accumulator, currentEntryArray) => {
             const measure = currentEntryArray[0];
-            const amount = currentEntryArray[1]
+            const amount = currentEntryArray[1];
+            let ingredientString = '';
+            let duplicateIngredient = '';
+            let prevString = '';
+            let newString = '';
+            const ingredientsArr = [];
+            const duplicateArr = [];
+            let num = 0;
+            amount.forEach(innerArray => {
+                newString = `${innerArray.measure} ${innerArray.ingredient}`
+                if (newString === prevString) {
+                    num += innerArray.quantity;
+                    duplicateIngredient = ` ${innerArray.quantity + num} ${innerArray.measure} ${innerArray.ingredient}`
+                    console.log(duplicateIngredient);
+                    ingredientsArr.push(duplicateIngredient)
+                    ingredientString = ingredientsArr.pop();
+                }else {
+                    ingredientString += (` ${innerArray.quantity} ${innerArray.measure} ${innerArray.ingredient}`);
+                }
+                prevString = newString;
+
+            });
             if (accumulator.length) {
-                return `${accumulator} and ${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
+                return `${accumulator} and ${ingredientString} `;
             } else {
-                return `${accumulator}${Object.values(amount)} ${measure} ${currentEntryArray[1][0].ingredient}`;
+                return `${accumulator} ${ingredientString}`;
             }
+            //}else{
+            //      return `${amount}`;
+            //}
         }, '');
-
-
-
         console.log(shoppingListString)
+        // shoppingList.reduce((uniqueArr, item) => {
+        //     console.log(item, uniqueArr);
+        //     if(uniqueArr.indexOf(item) === -1){
+        //         uniqueArr.push(item);
+        //     }
+        // }, []);
+
+        //     const sList = [];
+        //     Object.entries(shoppingList).forEach((element) => {
+        //         const [measure, ingredient] = element;
+        //         let num = 0;
+        //         ingredient.forEach((ing, index) => {
+        //           ingredient.forEach((el, i) => {
+        //             if(index === i){
+        //                 return null;
+        //             }
+        //             if(el.ingredient === ing.ingredient){
+        //                 num += ing.quantity;
+        //                 console.log(num);
+        //                 const item = {ingredient: ing.ingredient, measure: ing.measure, quantity: num}
+        //                 if(!sList.includes(item.ingredient)){
+        //                 sList.push(item);
+        //                 }
+        //             }else{
+        //                 sList.push({ingredient: ing.ingredient, measure: ing.measure, quantity:ing.quantity})
+        //             }
+        //         });
+        //     });
+        // });
+
+        //     console.log(sList);
+
+
+        // console.log(shoppingListString)
     }
 
     // item.forEach(ingredient => {

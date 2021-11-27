@@ -18,7 +18,7 @@ const RecipeControl = () => {
   const [isActive, setIsActive] = useState(false);
   const [prevArray, setPrevArray] = useState(fakeDatabase);
   const [recipeList, setRecipeList] = useState([...prevArray]);
-  const [clickedId, setClickedId] = useState("")
+  const [clickedId, setClickedId] = useState(0)
   const getRecipe = (getNewRecipe) => {
     setRecipe(getNewRecipe);
     const newArray = [...prevArray];
