@@ -177,7 +177,7 @@ const AddRecipe = ({ recipe, }) => {
     setResetFlag(false);
   }
   return (
-    <div class="tile box is-vertical">
+    <div class="tile box is-vertical is-child">
       <p class="label"> Add Recipe </p>
       <form onSubmit={handleSubmit}
         style={{

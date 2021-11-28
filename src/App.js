@@ -9,7 +9,7 @@ function App() {
       <section class="hero has-background-primary">
         <div class="hero-header">
           <p class="title has-text-black has-text-centered">
-            Recipe-App
+            Homemade & Heartfelt
             </p>
           </div>
         <div class="hero-body">
