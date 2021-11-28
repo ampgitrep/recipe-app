@@ -102,7 +102,7 @@ const WeeklyRecipes = ({ }) => {
     const [weekList, setWeekList] = useState([])
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
-    const [finalShoppingList, setFinalShoppingList] = useState({})
+    const [finalShoppingList, setFinalShoppingList] = useState('')
     const handleClick = () => {
         const tempArr = [];
         const recipeArray = [];
@@ -149,6 +149,7 @@ const WeeklyRecipes = ({ }) => {
     const createShoppingList = () => {
         const ingredientsObj = {};
         const recipeArray = [...weekList];
+
         recipeArray.forEach(recipe => {
             const { ingredients } = recipe;
             ingredients.forEach(singleIngred => {
@@ -159,218 +160,48 @@ const WeeklyRecipes = ({ }) => {
                 }
             });
         });
-        const shoppingList = {};
+        const ingredientsByMeasure = {};
+        const ingredientObject = {};
         let num = 0;
         Object.entries(ingredientsObj).forEach(entryArray => {
             const [entryKey, entryValue] = entryArray;
             entryValue.forEach(e => {
-                if (!shoppingList[e.measure]) {
-                    shoppingList[e.measure] = [e];
+                if (!ingredientsByMeasure[e.measure]) {
+                    ingredientsByMeasure[e.measure] = [e];
                 } else {
-                    shoppingList[e.measure].push(e)
+                    ingredientsByMeasure[e.measure].push(e)
                 }
             })
         });
-        // shoppingList.forEach(measure => {
-        //     console.log(measure)
-        // })
-        console.log(shoppingList);
-        const shoppingListString = Object.entries(shoppingList).reduce((accumulator, currentEntryArray) => {
-            const measure = currentEntryArray[0];
-            const amount = currentEntryArray[1];
-            let ingredientString = '';
-            let duplicateIngredient = '';
-            let prevString = '';
-            let newString = '';
-            const ingredientsArr = [];
-            const duplicateArr = [];
-            let num = 0;
-            amount.forEach(innerArray => {
-                newString = `${innerArray.measure} ${innerArray.ingredient}`
-                if (newString === prevString) {
-                    num += innerArray.quantity;
-                    duplicateIngredient = ` ${innerArray.quantity + num} ${innerArray.measure} ${innerArray.ingredient}`
-                    console.log(duplicateIngredient);
-                    ingredientsArr.push(duplicateIngredient)
-                    ingredientString = ingredientsArr.pop();
-                }else {
-                    ingredientString += (` ${innerArray.quantity} ${innerArray.measure} ${innerArray.ingredient}`);
+
+        const ingredientMeasureObj = {
+        };
+
+        Object.values(ingredientsByMeasure).forEach(measuresArray => {
+            measuresArray.forEach(ingredientObj => {
+                const { measure, ingredient, quantity } = ingredientObj;
+                const measureKey = `${measure} ${ingredient}`;
+                
+                if (ingredientMeasureObj[measureKey]) {
+                    ingredientMeasureObj[measureKey] += quantity;
+                } else {
+                    ingredientMeasureObj[measureKey] = quantity;
                 }
-                prevString = newString;
-
             });
-            if (accumulator.length) {
-                return `${accumulator} and ${ingredientString} `;
+        });
+
+        const listString = Object.entries(ingredientMeasureObj).reduce((accum, curr) => {
+            const [description, amount] = curr;
+
+            if (accum.length) {
+                return `${accum} and ${amount} ${description}`;
             } else {
-                return `${accumulator} ${ingredientString}`;
+                return `${amount} ${description}`;
             }
-            //}else{
-            //      return `${amount}`;
-            //}
         }, '');
-        console.log(shoppingListString)
-        // shoppingList.reduce((uniqueArr, item) => {
-        //     console.log(item, uniqueArr);
-        //     if(uniqueArr.indexOf(item) === -1){
-        //         uniqueArr.push(item);
-        //     }
-        // }, []);
-
-        //     const sList = [];
-        //     Object.entries(shoppingList).forEach((element) => {
-        //         const [measure, ingredient] = element;
-        //         let num = 0;
-        //         ingredient.forEach((ing, index) => {
-        //           ingredient.forEach((el, i) => {
-        //             if(index === i){
-        //                 return null;
-        //             }
-        //             if(el.ingredient === ing.ingredient){
-        //                 num += ing.quantity;
-        //                 console.log(num);
-        //                 const item = {ingredient: ing.ingredient, measure: ing.measure, quantity: num}
-        //                 if(!sList.includes(item.ingredient)){
-        //                 sList.push(item);
-        //                 }
-        //             }else{
-        //                 sList.push({ingredient: ing.ingredient, measure: ing.measure, quantity:ing.quantity})
-        //             }
-        //         });
-        //     });
-        // });
-
-        //     console.log(sList);
-
-
-        // console.log(shoppingListString)
+        setFinalShoppingList(listString);
     }
-
-    // item.forEach(ingredient => {
-    //     if(ingredient.length > 1){
-    //         console.log(ingredient)
-    //     }
-    // })
-
-    // const entryKey = entryArray[0]; // "pineapple"
-    //   const entryValue = entryArray[1]; // []
-    //     const measures = {
-    //         cups: 10,
-    // can: 1,
-    // };
-
-    //  entryValue.forEach(amount => {
-    //          if (measures[amount.measure]) {
-    // //                 measures[amount.measure] += amount.quantity;
-    // console.log(measures[amount.measure]);
-    //          }});// else {
-    //                     measures[amount.measure] = amount.quantity;
-    //                 }
-    //             });
-
-    // shoppingList[entryKey] = shoppingListArray.push(`10 cups and 1 can ${entryKey}`);
-
-
-
-    // const recipeArray = [...weekList];
-    // const dupArray = []
-    // const shoppingList = []
-    // const notDup = []
-    // //make an array of just ingredients
-    // recipeArray.forEach(e => {
-    //     shoppingList.push(e.ingredients)
-    // })
-    // //flatten out excess arrays to 1 array
-    // const flatList = shoppingList.flat();
-    // let num = 0;
-    // console.log(flatList)
-    // for (let i = 0; i < flatList.length; i++) {
-    //     for (let k = i + 1; k < flatList.length; k++) {
-    //         //if any two elements contain the same ingredient
-    //         if (flatList[i].ingredient === flatList[k].ingredient) {
-    //             //add the quantity of that ingredient up
-    //             num = flatList[i].quantity + flatList[k].quantity
-    //             //push dups to new array    
-    //             dupArray.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: num})
-    //         }
-    //         if(flatList[i].ingredient !== flatList[k].ingredient && notDup.length < flatList.length){
-    //            console.log(`[${i}] ${flatList[i].ingredient} !== [${k}] ${flatList[k].ingredient}`)
-    //            notDup.push({ingredient: flatList[i].ingredient, measure: flatList[i].measure, quantity: flatList[i].quantity})
-    //            flatList.shift();
-    //         }
-    //         // if(flatList[i].ingredient !== flatList[k].ingredient){
-    //         //     console.log(flatList[i].ingredient)
-    //         // }
-    //     }
-    // }
-    // const set1 = new Set(notDup);
-    // setFinalShoppingList(dupArray)
-    // console.log(dupArray, notDup);
-
-    // weekList.forEach(e => {
-    //     ingredients = {...ingredients, ingredient: ingredient.name = weekList.}
-    // })
-    //  const shoppingList = [];
-    //  const condensedList = [];
-    //  const listArray = [];
-    // // const filteredList = [];
-    //  let num1 = 0;
-    //  let num2 = 0;
-    //  let num3 = 0;
-    //  let num4 = 0;
-    //  let num5 = 0;
-    //  let s;
-    //  let split;
-
-    //  weekList.forEach(e => {
-    //      shoppingList.push(e.ingredients)
-    //  });
-    //  shoppingList.forEach(e => {
-    //      s = e.toString();
-    //      split = s.split(' ');
-    //      listArray.push(split);
-    //  })
-
-    // console.log(shoppingList)
-
-    //  //  const list = [];
-    // //  for(let i = 0; i < listArray.length; i++){
-    // //    list[i] = listArray[i].join(" ");
-    // //  console.log(list[i])
-    // // }
-
-    // for (let number = 0; number < listArray.length; number++) {
-    //     if (listArray[0][2] === listArray[number][2]) {
-    //         num1 += parseInt(listArray[number][0]);
-    //         condensedList.push(num1+ " " + listArray[0][1] + " " + listArray[0][2])
-
-    //     }
-    //     if (listArray[1][2] === listArray[number][2]) {
-    //         num2 += parseInt(listArray[number][0]);
-    //         condensedList.push(num2+ " " + listArray[1][1] + " " + listArray[1][2])
-    //     }
-    //     if (listArray[2][2] === listArray[number][2]) {
-    //         num3 += parseInt(listArray[number][0]);
-    //         condensedList.push(num3+ " " + listArray[2][1] + " " + listArray[2][2])
-    //     }
-    //     if (listArray[3][2] === listArray[number][2]) {
-    //         num4 += parseInt(listArray[number][0]);
-    //         condensedList.push(num4+ " " + listArray[3][1] + " " + listArray[3][2])
-    //     }
-    //     if (listArray[4][2] === listArray[number][2]) {
-    //         num5 += parseInt(listArray[number][0]);
-    //         condensedList.push(num5+ " " + listArray[4][1] + " " + listArray[4][2])
-    //     }
-    // }
-    // const final = []
-    // const reducedList = _.union(condensedList)
-    // console.log(reducedList)
-    // for(let i = 0; i < splitList.length; i++){
-    //     if(splitList[i][0] < splitList[splitList.length][0] && splitList[i][2] === splitList.length[2]){
-    //         final.push(splitList.slice(splitList[i]));
-    //     }
-    // }
-    // console.log(final)
-
+        
 
     return (
         <div>
@@ -411,10 +242,15 @@ const WeeklyRecipes = ({ }) => {
 
                 </div>
                 <button onClick={createShoppingList}>Create Shopping List </button>
-                <br />
+                <div class="tile is-pulled-right is-vertical box has-background-primary">
+                        {finalShoppingList}
+                </div>
             </section>
         </div>
     )
+
+
+
 }
 
 export default WeeklyRecipes;
