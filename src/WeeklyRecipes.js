@@ -37,7 +37,12 @@ export const fakeDatabase = [{
         ingredient: "pineapple",
         measure: "cups",
         quantity: 6
-    }],
+    }, {
+        ingredient: "spinach",
+        measure: "oz",
+        quantity: 10
+    }
+    ],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 5,
 }, {
@@ -48,6 +53,10 @@ export const fakeDatabase = [{
         ingredient: "spinach",
         measure: "oz",
         quantity: 10
+    }, {
+        ingredient: "applesauce",
+        measure: "tbps",
+        quantity: 2
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 2,
@@ -59,6 +68,10 @@ export const fakeDatabase = [{
         ingredient: "potatoes",
         measure: "each",
         quantity: 3
+    }, {
+        ingredient: "spinach",
+        measure: "oz",
+        quantity: 10
     }],
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 3,
@@ -102,7 +115,7 @@ const WeeklyRecipes = ({ }) => {
     const [weekList, setWeekList] = useState([])
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
-    const [finalShoppingList, setFinalShoppingList] = useState('')
+    const [finalShoppingList, setFinalShoppingList] = useState([])
     const handleClick = () => {
         const tempArr = [];
         const recipeArray = [];
@@ -181,7 +194,7 @@ const WeeklyRecipes = ({ }) => {
             measuresArray.forEach(ingredientObj => {
                 const { measure, ingredient, quantity } = ingredientObj;
                 const measureKey = `${measure} ${ingredient}`;
-                
+
                 if (ingredientMeasureObj[measureKey]) {
                     ingredientMeasureObj[measureKey] += quantity;
                 } else {
@@ -190,61 +203,75 @@ const WeeklyRecipes = ({ }) => {
             });
         });
 
-        const listString = Object.entries(ingredientMeasureObj).reduce((accum, curr) => {
+        const listArr = Object.entries(ingredientMeasureObj).reduce((accum, curr) => {
             const [description, amount] = curr;
-
             if (accum.length) {
-                return `${accum} and ${amount} ${description}`;
+                accum.push(`${amount} ${description} `);
             } else {
-                return `${amount} ${description}`;
+                accum.push(`${amount} ${description}`);
             }
-        }, '');
-        setFinalShoppingList(listString);
+            return accum
+        }, []);
+        console.log(listArr)
+        setFinalShoppingList(listArr);
     }
-        
+
 
     return (
         <div>
             <section class="section is-medium">
-                <div class="tile">
-                    <div class="tile is-parent is-vertical is-4 is-primary">
-                        <article class="tile is-child notification is-primary">
-                            <ul>
-                                <p class="title">Pick your recipes for the week, or pick them at random</p>
-                                {fakeDatabase.map(({ rating, recipeName, id, image }) => {
+                <Columns>
+                    <Columns.Column>
+                        <div class="tile">
+                            <div class="tile is-parent is-12 is-primary">
+                                <article class="tile is-child notification is-primary">
+                                    <ul>
+                                        <p class="title">Pick your recipes for the week, or pick them at random</p>
+                                        {fakeDatabase.map(({ rating, recipeName, id, image }) => {
+                                            if (clickedId === id && showRecipe === true) {
+                                                return <div class="tile is-child box" onClick={toggleVisibility}>
+                                                    <article class="tile is-child notification is-warning">
+                                                        <Recipe clickedId={clickedId} recipe={fakeDatabase} />
+                                                    </article>
+                                                    <button onClick={() => addToList(id)}>
+                                                        add to list
+                                                    </button>
+                                                    <button onClick={() => removeFromList(id)}>
+                                                        remove from list
+                                                    </button>
+                                                </div>
+                                            }
+                                            return (
+                                                <li key={id}
+                                                    onClick={() => toggleVisibility(id)}>{recipeName} - {rating} stars</li>
+                                            )
+                                        })}
+                                    </ul>
+                                </article>
 
-                                    if (clickedId === id && showRecipe === true) {
-                                        return <div class="tile is-child box" onClick={toggleVisibility}>
-                                            <article class="tile is-child notification is-warning">
-                                                <Recipe clickedId={clickedId} recipe={fakeDatabase} />
-                                            </article>
-                                            <button onClick={() => addToList(id)}>
-                                                add to list
-                                            </button>
-                                            <button onClick={() => removeFromList(id)}>
-                                                remove from list
-                                            </button>
-                                        </div>
-                                    }
-                                    return (
-                                        <li key={id}
-                                            onClick={() => toggleVisibility(id)}>{recipeName} - {rating} stars</li>
-                                    )
-                                })}
-                            </ul>
-                        </article>
+                            </div>
+                        </div>
+                        <button onClick={handleClick}>pick recipes for me</button>
+                        <br />
+                        <div class="tile is-4">
+                            {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
+
+                        </div>
+                        <button onClick={createShoppingList}>Create Shopping List </button>
+                    </Columns.Column>
+                    <Columns.Column>
+                    [enter slideShow]
+                    </Columns.Column>
+                    <Columns.Column>
+                    <div class="tile is-pulled-right is-vertical box has-background-primary is-4">
+                        <p class="title">Shopping list</p>
+                        {finalShoppingList.map(e => {
+                            return <div> {e} </div>
+
+                        })}
                     </div>
-                </div>
-                <button onClick={handleClick}>pick recipes for me</button>
-                <br />
-                <div class="tile is-4">
-                    {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
-
-                </div>
-                <button onClick={createShoppingList}>Create Shopping List </button>
-                <div class="tile is-pulled-right is-vertical box has-background-primary">
-                        {finalShoppingList}
-                </div>
+                    </Columns.Column>
+                </Columns>
             </section>
         </div>
     )
