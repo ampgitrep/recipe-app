@@ -2,13 +2,13 @@ import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Columns, Container } from "react-bulma-components";
 import WeeklyRecipes from "./WeeklyRecipes";
 import { fakeDatabase } from "./WeeklyRecipes";
 const RecipeControl = () => {
   const [recipe, setRecipe] = useState(
     {
+      id: 10,
       recipeName: "",
       instructions: [],
       ingredients: [],
@@ -19,13 +19,14 @@ const RecipeControl = () => {
   const [prevArray, setPrevArray] = useState(fakeDatabase);
   const [recipeList, setRecipeList] = useState([...prevArray]);
   const [clickedId, setClickedId] = useState(0)
+  
+  
   const getRecipe = (getNewRecipe) => {
     setRecipe(getNewRecipe);
     const newArray = [...prevArray];
     newArray.push(getNewRecipe);
     setPrevArray(newArray);
     setRecipeList(newArray);
-    console.log(recipeList);
     return getNewRecipe;
   }
 

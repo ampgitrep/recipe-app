@@ -1,6 +1,5 @@
 
 const Recipe = ({ clickedId, recipe }) => {
-
   return (
     <div>
       <p class="title"> Recipe:</p>

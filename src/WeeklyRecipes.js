@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import RecipeControl from "./RecipeControl";
+import { useState } from "react";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
-import { Columns, Container } from "react-bulma-components";
+import { Columns } from "react-bulma-components";
 
 
-const _ = require("lodash");
+
 export const fakeDatabase = [{
     id: 0,
     recipeName: "test1",
@@ -111,13 +109,13 @@ export const fakeDatabase = [{
 }]
 
 
-const WeeklyRecipes = ({ }) => {
+const WeeklyRecipes = () => {
     const [weekList, setWeekList] = useState([])
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
     const [finalShoppingList, setFinalShoppingList] = useState([])
+
     const handleClick = () => {
-        const tempArr = [];
         const recipeArray = [];
         for (let i = 1; i <= 5; i++) {
             let randNum = Math.floor((Math.random(fakeDatabase.length) * fakeDatabase.length - 1) + 1);
@@ -174,8 +172,6 @@ const WeeklyRecipes = ({ }) => {
             });
         });
         const ingredientsByMeasure = {};
-        const ingredientObject = {};
-        let num = 0;
         Object.entries(ingredientsObj).forEach(entryArray => {
             const [entryKey, entryValue] = entryArray;
             entryValue.forEach(e => {
@@ -210,7 +206,7 @@ const WeeklyRecipes = ({ }) => {
             } else {
                 accum.push(`${amount} ${description}`);
             }
-            return accum
+            return accum;
         }, []);
         console.log(listArr)
         setFinalShoppingList(listArr);
@@ -222,7 +218,7 @@ const WeeklyRecipes = ({ }) => {
             <section class="section is-medium">
                 <Columns>
                     <Columns.Column>
-                        <div class="tile">
+                        <div class="tile is-flex">
                             <div class="tile is-parent is-12 is-primary">
                                 <article class="tile is-child notification is-primary">
                                     <ul>
@@ -260,16 +256,16 @@ const WeeklyRecipes = ({ }) => {
                         <button onClick={createShoppingList}>Create Shopping List </button>
                     </Columns.Column>
                     <Columns.Column>
-                    [enter slideShow]
+                        [enter slideShow]
                     </Columns.Column>
                     <Columns.Column>
-                    <div class="tile is-pulled-right is-vertical box has-background-primary is-4">
-                        <p class="title">Shopping list</p>
-                        {finalShoppingList.map(e => {
-                            return <div> {e} </div>
+                        <div class="tile is-pulled-right is-vertical box has-background-primary is-4">
+                            <p class="title">Shopping list</p>
+                            {finalShoppingList.map(e => {
+                                return <div> {e} </div>
 
-                        })}
-                    </div>
+                            })}
+                        </div>
                     </Columns.Column>
                 </Columns>
             </section>

@@ -1,4 +1,3 @@
-import Recipe from "./Recipe";
 
 const RecipeList = ({ recipeList, onClick }) => {
   const getStars = (rate) => {

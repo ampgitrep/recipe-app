@@ -2,12 +2,12 @@ import { useState } from "react";
 import GetRating from "./Rating.js";
 import QuantityBox from "./QuantityBox.js";
 import Select from "react-select";
-import { Columns, Container } from 'react-bulma-components';
+
 
 const AddRecipe = ({ recipe, }) => {
 
   const [newRecipe, setRecipe] = useState({
-    id: 0,
+    id: 7,
     recipeName: "",
     instructions: [],
     quantity: 0,
@@ -36,7 +36,6 @@ const AddRecipe = ({ recipe, }) => {
   const [quantity, setQuantity] = useState(1);
   const [dropDown, setDropDown] = useState({ value: 'each', label: 'each' });
   const [image, setImage] = useState(null);
-  const [clicked, setClicked] = useState(false);
   const [resetFlag, setResetFlag] = useState(false);
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -49,10 +48,9 @@ const AddRecipe = ({ recipe, }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //onSubmit handler, increase id # and set array to state object
-    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
+    setRecipe({ ...newRecipe, id: newRecipe.id  += 1,  ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
     recipe(newRecipe);
     clearInputFields();
-
   };
 
   const options = [
@@ -157,7 +155,7 @@ const AddRecipe = ({ recipe, }) => {
 
   const clearInputFields = () => {
     setRecipe({
-      id: newRecipe.id + 1,
+      id: newRecipe.id,
       recipeName: "",
       instructions: [],
       ingredients: [],
