@@ -2,6 +2,7 @@ import { useState } from "react";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
 import { Columns } from "react-bulma-components";
+import SlideShow from "./Slideshow";
 
 
 
@@ -13,13 +14,13 @@ export const fakeDatabase = [{
         measure: "cups",
         quantity: 4
     }],
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "src\apple pie.JPG",
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 4,
 }, {
     id: 1,
     recipeName: "test2",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "src:apple pie.JPG",
     ingredients: [{
         ingredient: "onions",
         measure: "each",
@@ -30,7 +31,7 @@ export const fakeDatabase = [{
 }, {
     id: 2,
     recipeName: "test3",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "src\apple pie.JPG",
     ingredients: [{
         ingredient: "pineapple",
         measure: "cups",
@@ -46,7 +47,7 @@ export const fakeDatabase = [{
 }, {
     id: 3,
     recipeName: "test4",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "src\apple pie.JPG",
     ingredients: [{
         ingredient: "spinach",
         measure: "oz",
@@ -61,7 +62,7 @@ export const fakeDatabase = [{
 }, {
     id: 4,
     recipeName: "test5",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "src\apple pie.JPG",
     ingredients: [{
         ingredient: "potatoes",
         measure: "each",
@@ -76,7 +77,7 @@ export const fakeDatabase = [{
 }, {
     id: 5,
     recipeName: "test6",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "src\apple pie.JPG",
     ingredients: [{
         ingredient: "tomatoes",
         measure: "each",
@@ -87,7 +88,7 @@ export const fakeDatabase = [{
 }, {
     id: 6,
     recipeName: "test7",
-    image: "blob:http://localhost:3000/d508cfff-be6e-49df-acf3-d3d4874049eb",
+    image: "src\apple pie.JPG",
     ingredients: [{
         ingredient: "applesauce",
         measure: "tbps",
@@ -98,7 +99,7 @@ export const fakeDatabase = [{
 }, {
     id: 7,
     recipeName: "test8",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
+    image: "src\apple pie.JPG",
     ingredients: [{
         ingredient: "carrots",
         measure: "cups",
@@ -256,7 +257,7 @@ const WeeklyRecipes = () => {
                         <button onClick={createShoppingList}>Create Shopping List </button>
                     </Columns.Column>
                     <Columns.Column>
-                        [enter slideShow]
+                        <SlideShow recipeList={fakeDatabase}/>
                     </Columns.Column>
                     <Columns.Column>
                         <div class="tile is-pulled-right is-vertical box has-background-primary is-4">
