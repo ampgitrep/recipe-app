@@ -239,7 +239,7 @@ const AddRecipe = ({ recipe, }) => {
           <input type="file" onChange={onImageChange} className="filetype" />
           :
           `✅ image uploaded successfully `}
-        <GetRating getRating={getRating} />
+      <p class="label"> Difficulty:</p> <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
       </form>
     </div>

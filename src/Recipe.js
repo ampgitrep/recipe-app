@@ -29,7 +29,7 @@ const Recipe = ({ clickedId, recipe }) => {
         
         src={recipe[clickedId].image}/>
         <br />
-        rating:   {recipe[clickedId].rating}
+        difficulty-rating:   {recipe[clickedId].rating}
       </div>
     </div>
   )
