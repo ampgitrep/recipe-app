@@ -2,7 +2,7 @@ import { Container, Columns } from "react-bulma-components";
 import { useState } from "react";
 
 const SlideShow = ({ recipeList }) => {
-  const [currentSlide, setCurrentSlide] = useState(1);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const imageList = (recipeList) => {
     recipeList.map((image, id) => {
@@ -15,39 +15,44 @@ const SlideShow = ({ recipeList }) => {
   }
   const prevSlide = () => {
     console.log(currentSlide)
-    if (currentSlide > 1) {
+    if (currentSlide > 0) {
       setCurrentSlide(currentSlide - 1);
     } else {
-      setCurrentSlide(recipeList[recipeList.length-1].id);
+      setCurrentSlide(recipeList[recipeList.length - 1].id);
     }
   }
 
   const nextSlide = () => {
     console.log(currentSlide)
-    if (currentSlide < recipeList.length -1) {
+    if (currentSlide < recipeList.length - 1) {
       setCurrentSlide(currentSlide + 1)
     } else {
-      setCurrentSlide(recipeList[1].id);
+      setCurrentSlide(recipeList[0].id);
     }
   }
 
   return (
-    <Container>
-      <div class="tile">
-        <Columns>
-          <Columns.Column>
-            <button onClick={prevSlide}>
-              {`<`}
-            </button>
-          </Columns.Column>
-          <img src={recipeList[currentSlide].image}/>
-          <Columns.Column>
-            <button onClick={nextSlide}>
-              {`>`}
-            </button>
-          </Columns.Column>
-        </Columns>
-      </div>
+    <Container class="tile is-primary">
+      <nav class="level">
+
+          <div class=" card is-primary level-item has-text-centered">
+            <div>
+              <button class="button is-primary is-outlined" onClick={prevSlide} >
+                {`<`}
+              </button>
+            </div>
+            <figure class="image">
+              <img 
+                          src={recipeList[currentSlide].image} />
+            </figure>
+            <div>
+              <button class="button is-primary is-outlined" onClick={nextSlide} >
+                {`>`}
+              </button>
+            </div>
+          </div>
+
+      </nav>
     </Container>
   )
 }

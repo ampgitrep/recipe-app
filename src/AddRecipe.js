@@ -134,7 +134,7 @@ const AddRecipe = ({ recipe, }) => {
     select: {
       width: '50%',
       maxWidth: 600,
-      alginItems: 'center',
+      alignItems: 'center',
       justifyItems: 'center'
     }
   }

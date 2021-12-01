@@ -14,13 +14,13 @@ export const fakeDatabase = [{
         measure: "cups",
         quantity: 4
     }],
-    image: "src\apple pie.JPG",
+    image: 'https://c.pxhere.com/images/94/2d/5eac8104f9aa89ca0f07abc57298-1620737.jpg!d',
     instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
     rating: 4,
 }, {
     id: 1,
     recipeName: "test2",
-    image: "src:apple pie.JPG",
+    image: "",
     ingredients: [{
         ingredient: "onions",
         measure: "each",
@@ -31,7 +31,7 @@ export const fakeDatabase = [{
 }, {
     id: 2,
     recipeName: "test3",
-    image: "src\apple pie.JPG",
+    image: "applepie.JPG",
     ingredients: [{
         ingredient: "pineapple",
         measure: "cups",
@@ -47,7 +47,7 @@ export const fakeDatabase = [{
 }, {
     id: 3,
     recipeName: "test4",
-    image: "src\apple pie.JPG",
+    image: "applepie.JPG",
     ingredients: [{
         ingredient: "spinach",
         measure: "oz",
@@ -62,7 +62,7 @@ export const fakeDatabase = [{
 }, {
     id: 4,
     recipeName: "test5",
-    image: "src\apple pie.JPG",
+    image: "applepie.JPG",
     ingredients: [{
         ingredient: "potatoes",
         measure: "each",
@@ -77,7 +77,7 @@ export const fakeDatabase = [{
 }, {
     id: 5,
     recipeName: "test6",
-    image: "src\apple pie.JPG",
+    image: "applepie.JPG",
     ingredients: [{
         ingredient: "tomatoes",
         measure: "each",
@@ -88,7 +88,7 @@ export const fakeDatabase = [{
 }, {
     id: 6,
     recipeName: "test7",
-    image: "src\apple pie.JPG",
+    image: "applepie.JPG",
     ingredients: [{
         ingredient: "applesauce",
         measure: "tbps",
@@ -99,7 +99,7 @@ export const fakeDatabase = [{
 }, {
     id: 7,
     recipeName: "test8",
-    image: "src\apple pie.JPG",
+    image: "applepie.JPG",
     ingredients: [{
         ingredient: "carrots",
         measure: "cups",
@@ -260,12 +260,15 @@ const WeeklyRecipes = () => {
                         <SlideShow recipeList={fakeDatabase}/>
                     </Columns.Column>
                     <Columns.Column>
-                        <div class="tile is-pulled-right is-vertical box has-background-primary is-4">
+                        <div class="level">
+                            <div class="card level-item has-text-centered has-background-primary">
+                        <div class="box has-background-primary-light">
                             <p class="title">Shopping list</p>
                             {finalShoppingList.map(e => {
                                 return <div> {e} </div>
-
                             })}
+                            </div>
+                        </div>
                         </div>
                     </Columns.Column>
                 </Columns>
