@@ -2,7 +2,7 @@ import { useState } from "react";
 import GetRating from "./Rating.js";
 import QuantityBox from "./QuantityBox.js";
 import Select from "react-select";
-
+import UserRecipes from "./UserRecipes.json";
 
 const AddRecipe = ({ recipe, }) => {
 
@@ -151,8 +151,9 @@ const AddRecipe = ({ recipe, }) => {
     );
   });
 
+ 
 
-
+  
   const clearInputFields = () => {
     setRecipe({
       id: newRecipe.id,
@@ -241,6 +242,7 @@ const AddRecipe = ({ recipe, }) => {
           `✅ image uploaded successfully `}
       <p class="label"> Difficulty:</p> <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
+       
       </form>
     </div>
   )

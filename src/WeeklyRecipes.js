@@ -257,18 +257,18 @@ const WeeklyRecipes = () => {
                         <button onClick={createShoppingList}>Create Shopping List </button>
                     </Columns.Column>
                     <Columns.Column>
-                        <SlideShow recipeList={fakeDatabase}/>
+                        <SlideShow recipeList={fakeDatabase} />
                     </Columns.Column>
                     <Columns.Column>
                         <div class="level">
                             <div class="card level-item has-text-centered has-background-primary">
-                        <div class="box has-background-primary-light">
-                            <p class="title">Shopping list</p>
-                            {finalShoppingList.map(e => {
-                                return <div> {e} </div>
-                            })}
+                                <div class="box has-background-primary-light">
+                                    <p class="title">Shopping list</p>
+                                    {finalShoppingList.map(e => {
+                                        return <div> {e} </div>
+                                    })}
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </Columns.Column>
                 </Columns>

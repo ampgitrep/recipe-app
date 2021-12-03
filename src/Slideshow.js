@@ -1,9 +1,18 @@
-import { Container } from "react-bulma-components";
+import { Container, Columns } from "react-bulma-components";
 import { useState } from "react";
 
 const SlideShow = ({ recipeList }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const imageList = (recipeList) => {
+    recipeList.map((image, id) => {
+      return (
+        <li key={id}>
+          {image}
+        </li>
+      )
+    })
+  }
   const prevSlide = () => {
     console.log(currentSlide)
     if (currentSlide > 0) {
@@ -25,7 +34,6 @@ const SlideShow = ({ recipeList }) => {
   return (
     <Container class="tile is-primary">
       <nav class="level">
-
           <div class=" card is-primary level-item has-text-centered">
             <div>
               <button class="button is-primary is-outlined" onClick={prevSlide} >
