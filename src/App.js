@@ -11,7 +11,6 @@ function App() {
             </p>
           </div>
         <div class="hero-body">
-     <Login />
      </div>
       </section>
        <RecipeControl />

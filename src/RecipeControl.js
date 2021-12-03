@@ -4,7 +4,7 @@ import AddRecipe from "./AddRecipe";
 import { useState } from "react";
 import { Columns, Container } from "react-bulma-components";
 import WeeklyRecipes from "./WeeklyRecipes";
-import { fakeDatabase } from "./WeeklyRecipes";
+
 
 
 const RecipeControl = () => {
@@ -18,7 +18,7 @@ const RecipeControl = () => {
     }
   )
   const [isActive, setIsActive] = useState(false);
-  const [prevArray, setPrevArray] = useState(fakeDatabase);
+  const [prevArray, setPrevArray] = useState('');
   const [recipeList, setRecipeList] = useState([...prevArray]);
   const [clickedId, setClickedId] = useState(0)
   const [selectedFile, setSelectedFile] = useState();
@@ -40,7 +40,7 @@ const RecipeControl = () => {
       }
     };
     reader.readAsText(selectedFile)
-    setSelectedFile(null);
+    setSelectedFile(null)
     setIsFileSelected(false)
   }
 
@@ -109,13 +109,19 @@ const RecipeControl = () => {
             <Columns.Column>
               <div class="tile is-vertical box is-12">
                 <p class="title">Recipe List</p>
-                <RecipeList onClick={toggleVisibility} recipeList={recipeList} fakeDatabase={fakeDatabase} />
-                <input type="file" name="userRecipes" onChange={uploadFileHandler} /><button onClick={handleFileSubmission}>import recipes</button>
-                <button onClick={exportToJson}>export my recipes</button>
+                <RecipeList onClick={toggleVisibility} recipeList={recipeList} />
+                {isFileSelected === false ? 
+                <div>
+                  <input type="file" name="userRecipes" onChange={uploadFileHandler} />
+                  </div> : 
+                  <div>
+                  <button onClick={handleFileSubmission}>import recipes</button>
+                  <button onClick={exportToJson}>export my recipes</button>
+                  </div> }
               </div>
             </Columns.Column>
           </Columns>
-          <WeeklyRecipes />
+          <WeeklyRecipes recipeList={recipeList} />
         </Container>
       </Container>
     </div>

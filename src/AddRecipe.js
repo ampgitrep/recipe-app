@@ -2,7 +2,6 @@ import { useState } from "react";
 import GetRating from "./Rating.js";
 import QuantityBox from "./QuantityBox.js";
 import Select from "react-select";
-import UserRecipes from "./UserRecipes.json";
 
 const AddRecipe = ({ recipe, }) => {
 
@@ -121,12 +120,10 @@ const AddRecipe = ({ recipe, }) => {
 
   const handleDeleteIngredient = (id) => {
     const currentList = [...ingredientsList].filter(entry => { return entry.id !== id });
-    // filteredInstructionList.splice(id, 1);
     setIngredientsList(currentList);
   };
   const handleDeleteInstruction = (id) => {
     const currentList = [...instructionsList].filter(entry => { return entry.id !== id });
-    // filteredInstructionList.splice(id, 1);
     setInstructionsList(currentList);
   };
 
@@ -236,6 +233,7 @@ const AddRecipe = ({ recipe, }) => {
         <ul style={{ textAlign: "left" }}>
           {filteredInstructionList}
         </ul>
+        <label class="label">Upload Image</label>
         {resetFlag === false ?
           <input type="file" onChange={onImageChange} className="filetype" />
           :

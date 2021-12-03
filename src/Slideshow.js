@@ -40,9 +40,10 @@ const SlideShow = ({ recipeList }) => {
                 {`<`}
               </button>
             </div>
+            {currentSlide ? 
             <figure class="image">
               <img src={recipeList[currentSlide].image} />
-            </figure>
+            </figure> : null }
             <div>
               <button class="button is-primary is-outlined" onClick={nextSlide} >
                 {`>`}

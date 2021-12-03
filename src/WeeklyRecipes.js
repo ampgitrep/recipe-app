@@ -4,113 +4,7 @@ import RecipeList from "./RecipeList";
 import { Columns } from "react-bulma-components";
 import SlideShow from "./Slideshow";
 
-
-
-export const fakeDatabase = [{
-    id: 0,
-    recipeName: "test1",
-    ingredients: [{
-        ingredient: "pineapple",
-        measure: "cups",
-        quantity: 4
-    }],
-    image: 'https://c.pxhere.com/images/94/2d/5eac8104f9aa89ca0f07abc57298-1620737.jpg!d',
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 4,
-}, {
-    id: 1,
-    recipeName: "test2",
-    image: "",
-    ingredients: [{
-        ingredient: "onions",
-        measure: "each",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 3,
-}, {
-    id: 2,
-    recipeName: "test3",
-    image: "applepie.JPG",
-    ingredients: [{
-        ingredient: "pineapple",
-        measure: "cups",
-        quantity: 6
-    }, {
-        ingredient: "spinach",
-        measure: "oz",
-        quantity: 10
-    }
-    ],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 5,
-}, {
-    id: 3,
-    recipeName: "test4",
-    image: "applepie.JPG",
-    ingredients: [{
-        ingredient: "spinach",
-        measure: "oz",
-        quantity: 10
-    }, {
-        ingredient: "applesauce",
-        measure: "tbps",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 2,
-}, {
-    id: 4,
-    recipeName: "test5",
-    image: "applepie.JPG",
-    ingredients: [{
-        ingredient: "potatoes",
-        measure: "each",
-        quantity: 3
-    }, {
-        ingredient: "spinach",
-        measure: "oz",
-        quantity: 10
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 3,
-}, {
-    id: 5,
-    recipeName: "test6",
-    image: "applepie.JPG",
-    ingredients: [{
-        ingredient: "tomatoes",
-        measure: "each",
-        quantity: 4
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 5,
-}, {
-    id: 6,
-    recipeName: "test7",
-    image: "applepie.JPG",
-    ingredients: [{
-        ingredient: "applesauce",
-        measure: "tbps",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 2,
-}, {
-    id: 7,
-    recipeName: "test8",
-    image: "applepie.JPG",
-    ingredients: [{
-        ingredient: "carrots",
-        measure: "cups",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 4,
-}]
-
-
-const WeeklyRecipes = () => {
+const WeeklyRecipes = ({ recipeList }) => {
     const [weekList, setWeekList] = useState([])
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
@@ -119,9 +13,9 @@ const WeeklyRecipes = () => {
     const handleClick = () => {
         const recipeArray = [];
         for (let i = 1; i <= 5; i++) {
-            let randNum = Math.floor((Math.random(fakeDatabase.length) * fakeDatabase.length - 1) + 1);
+            let randNum = Math.floor((Math.random(recipeList.length) * recipeList.length - 1) + 1);
 
-            recipeArray.push(fakeDatabase[randNum])
+            recipeArray.push(recipeList[randNum])
         }
         setWeekList(recipeArray);
     }
@@ -130,7 +24,7 @@ const WeeklyRecipes = () => {
         toggleVisibility(id);
         const currentArray = [...weekList];
         if (currentArray.length <= 5) {
-            currentArray.push(fakeDatabase[id]);
+            currentArray.push(recipeList[id]);
             setWeekList(currentArray);
         }
         if (currentArray.length > 5) {
@@ -224,11 +118,11 @@ const WeeklyRecipes = () => {
                                 <article class="tile is-child notification is-primary">
                                     <ul>
                                         <p class="title">Pick your recipes for the week, or pick them at random</p>
-                                        {fakeDatabase.map(({ rating, recipeName, id, image }) => {
+                                        {recipeList.map(({ rating, recipeName, id, image }) => {
                                             if (clickedId === id && showRecipe === true) {
                                                 return <div class="tile is-child box" onClick={toggleVisibility}>
                                                     <article class="tile is-child notification is-warning">
-                                                        <Recipe clickedId={clickedId} recipe={fakeDatabase} />
+                                                        <Recipe clickedId={clickedId} recipe={recipeList} />
                                                     </article>
                                                     <button onClick={() => addToList(id)}>
                                                         add to list
@@ -248,8 +142,10 @@ const WeeklyRecipes = () => {
 
                             </div>
                         </div>
+                        
                         <button onClick={handleClick}>pick recipes for me</button>
                         <br />
+                            <label class="label">Weekly Recipes</label>
                         <div class="tile is-4">
                             {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
 
@@ -257,7 +153,7 @@ const WeeklyRecipes = () => {
                         <button onClick={createShoppingList}>Create Shopping List </button>
                     </Columns.Column>
                     <Columns.Column>
-                        <SlideShow recipeList={fakeDatabase} />
+                        <SlideShow recipeList={recipeList} />
                     </Columns.Column>
                     <Columns.Column>
                         <div class="level">
