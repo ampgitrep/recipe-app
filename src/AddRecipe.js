@@ -3,10 +3,10 @@ import GetRating from "./Rating.js";
 import QuantityBox from "./QuantityBox.js";
 import Select from "react-select";
 
-const AddRecipe = ({ recipe, }) => {
+const AddRecipe = ({ recipe, recipeList }) => {
 
   const [newRecipe, setRecipe] = useState({
-    id: 7,
+    id: 100,
     recipeName: "",
     instructions: [],
     quantity: 0,
@@ -47,7 +47,7 @@ const AddRecipe = ({ recipe, }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //onSubmit handler, increase id # and set array to state object
-    setRecipe({ ...newRecipe, id: newRecipe.id  += 1,  ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
+    setRecipe({ ...newRecipe, id: newRecipe.id  += 7,  ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
     recipe(newRecipe);
     clearInputFields();
   };

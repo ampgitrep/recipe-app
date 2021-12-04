@@ -34,7 +34,8 @@ const RecipeControl = () => {
     reader.onload = ({ target }) => {
       if (target.result) {
         const fileToUpload = JSON.parse(target.result);
-        setRecipeList(fileToUpload);
+        setPrevArray(fileToUpload);
+        setRecipeList([...prevArray])
       } else {
         alert("error, no file found");
       }
@@ -52,7 +53,7 @@ const RecipeControl = () => {
     setRecipeList(newArray);
     return getNewRecipe;
   }
-
+  console.log(recipeList)
   const toggleVisibility = (id) => {
     if (id !== clickedId || isActive === false) {
       setClickedId(id);
@@ -104,20 +105,22 @@ const RecipeControl = () => {
               </div>
             </Columns.Column>
             <Columns.Column>
-              <AddRecipe recipe={getRecipe} />
+              <AddRecipe recipe={getRecipe} recipeList={recipeList} />
             </Columns.Column>
             <Columns.Column>
               <div class="tile is-vertical box is-12">
                 <p class="title">Recipe List</p>
                 <RecipeList onClick={toggleVisibility} recipeList={recipeList} />
-                {isFileSelected === false ? 
-                <div>
-                  <input type="file" name="userRecipes" onChange={uploadFileHandler} />
-                  </div> : 
+                <label class="label">import recipes</label>
+                {isFileSelected === false ?
                   <div>
-                  <button onClick={handleFileSubmission}>import recipes</button>
-                  <button onClick={exportToJson}>export my recipes</button>
-                  </div> }
+                    <input type="file" name="userRecipes" onChange={uploadFileHandler} />
+                  </div> :
+                  <div>
+                    <button onClick={handleFileSubmission}>import recipes</button>
+                  </div>}
+                <br />
+                <button onClick={exportToJson}>export my recipes</button>
               </div>
             </Columns.Column>
           </Columns>
