@@ -48,7 +48,7 @@ const QuantityBox = ({ getQuantity}) => {
                    
         <input
         style={{
-            width:"15px",
+            width:"30px",
         }}     
         value={boxQuantity}
         onChange={(e)=>handleChange(e.target.value)}></input>

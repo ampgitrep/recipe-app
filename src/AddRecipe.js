@@ -2,12 +2,11 @@ import { useState } from "react";
 import GetRating from "./Rating.js";
 import QuantityBox from "./QuantityBox.js";
 import Select from "react-select";
-import { Columns, Container } from 'react-bulma-components';
 
-const AddRecipe = ({ recipe, }) => {
+const AddRecipe = ({ recipe, recipeList }) => {
 
   const [newRecipe, setRecipe] = useState({
-    id: 0,
+    id: 100,
     recipeName: "",
     instructions: [],
     quantity: 0,
@@ -36,7 +35,6 @@ const AddRecipe = ({ recipe, }) => {
   const [quantity, setQuantity] = useState(1);
   const [dropDown, setDropDown] = useState({ value: 'each', label: 'each' });
   const [image, setImage] = useState(null);
-  const [clicked, setClicked] = useState(false);
   const [resetFlag, setResetFlag] = useState(false);
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -49,10 +47,9 @@ const AddRecipe = ({ recipe, }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //onSubmit handler, increase id # and set array to state object
-    setRecipe({ ...newRecipe, ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
+    setRecipe({ ...newRecipe, id: newRecipe.id  += 7,  ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
     recipe(newRecipe);
     clearInputFields();
-
   };
 
   const options = [
@@ -123,12 +120,10 @@ const AddRecipe = ({ recipe, }) => {
 
   const handleDeleteIngredient = (id) => {
     const currentList = [...ingredientsList].filter(entry => { return entry.id !== id });
-    // filteredInstructionList.splice(id, 1);
     setIngredientsList(currentList);
   };
   const handleDeleteInstruction = (id) => {
     const currentList = [...instructionsList].filter(entry => { return entry.id !== id });
-    // filteredInstructionList.splice(id, 1);
     setInstructionsList(currentList);
   };
 
@@ -136,7 +131,7 @@ const AddRecipe = ({ recipe, }) => {
     select: {
       width: '50%',
       maxWidth: 600,
-      alginItems: 'center',
+      alignItems: 'center',
       justifyItems: 'center'
     }
   }
@@ -153,11 +148,12 @@ const AddRecipe = ({ recipe, }) => {
     );
   });
 
+ 
 
-
+  
   const clearInputFields = () => {
     setRecipe({
-      id: newRecipe.id + 1,
+      id: newRecipe.id,
       recipeName: "",
       instructions: [],
       ingredients: [],
@@ -237,12 +233,14 @@ const AddRecipe = ({ recipe, }) => {
         <ul style={{ textAlign: "left" }}>
           {filteredInstructionList}
         </ul>
+        <label class="label">Upload Image</label>
         {resetFlag === false ?
           <input type="file" onChange={onImageChange} className="filetype" />
           :
           `✅ image uploaded successfully `}
-        <GetRating getRating={getRating} />
+      <p class="label"> Difficulty:</p> <GetRating getRating={getRating} />
         <button>Submit Recipe</button>
+       
       </form>
     </div>
   )

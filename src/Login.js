@@ -4,6 +4,7 @@ import { Container, Columns } from "react-bulma-components"
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    
     const clickHandler = (e) => {
         e.preventDefault();
         console.log(email, password)

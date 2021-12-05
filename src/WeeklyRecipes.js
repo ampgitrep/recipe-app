@@ -1,128 +1,21 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import RecipeControl from "./RecipeControl";
+import { useState } from "react";
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
-import { Columns, Container } from "react-bulma-components";
+import { Columns } from "react-bulma-components";
+import SlideShow from "./Slideshow";
 
-
-const _ = require("lodash");
-export const fakeDatabase = [{
-    id: 0,
-    recipeName: "test1",
-    ingredients: [{
-        ingredient: "pineapple",
-        measure: "cups",
-        quantity: 4
-    }],
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 4,
-}, {
-    id: 1,
-    recipeName: "test2",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: [{
-        ingredient: "onions",
-        measure: "each",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 3,
-}, {
-    id: 2,
-    recipeName: "test3",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: [{
-        ingredient: "pineapple",
-        measure: "cups",
-        quantity: 6
-    }, {
-        ingredient: "spinach",
-        measure: "oz",
-        quantity: 10
-    }
-    ],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 5,
-}, {
-    id: 3,
-    recipeName: "test4",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: [{
-        ingredient: "spinach",
-        measure: "oz",
-        quantity: 10
-    }, {
-        ingredient: "applesauce",
-        measure: "tbps",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 2,
-}, {
-    id: 4,
-    recipeName: "test5",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: [{
-        ingredient: "potatoes",
-        measure: "each",
-        quantity: 3
-    }, {
-        ingredient: "spinach",
-        measure: "oz",
-        quantity: 10
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 3,
-}, {
-    id: 5,
-    recipeName: "test6",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: [{
-        ingredient: "tomatoes",
-        measure: "each",
-        quantity: 4
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 5,
-}, {
-    id: 6,
-    recipeName: "test7",
-    image: "blob:http://localhost:3000/d508cfff-be6e-49df-acf3-d3d4874049eb",
-    ingredients: [{
-        ingredient: "applesauce",
-        measure: "tbps",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 2,
-}, {
-    id: 7,
-    recipeName: "test8",
-    image: "blob:http://localhost:3000/9215c2fa-1a3f-4c75-8758-c725165950ba",
-    ingredients: [{
-        ingredient: "carrots",
-        measure: "cups",
-        quantity: 2
-    }],
-    instructions: [{ id: 1, instruction: "blah blah" }, { id: 2, instruction: "test blah" },],
-    rating: 4,
-}]
-
-
-const WeeklyRecipes = ({ }) => {
+const WeeklyRecipes = ({ recipeList }) => {
     const [weekList, setWeekList] = useState([])
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
     const [finalShoppingList, setFinalShoppingList] = useState([])
+
     const handleClick = () => {
-        const tempArr = [];
         const recipeArray = [];
         for (let i = 1; i <= 5; i++) {
-            let randNum = Math.floor((Math.random(fakeDatabase.length) * fakeDatabase.length - 1) + 1);
+            let randNum = Math.floor((Math.random(recipeList.length) * recipeList.length - 1) + 1);
 
-            recipeArray.push(fakeDatabase[randNum])
+            recipeArray.push(recipeList[randNum])
         }
         setWeekList(recipeArray);
     }
@@ -131,7 +24,7 @@ const WeeklyRecipes = ({ }) => {
         toggleVisibility(id);
         const currentArray = [...weekList];
         if (currentArray.length <= 5) {
-            currentArray.push(fakeDatabase[id]);
+            currentArray.push(recipeList[id]);
             setWeekList(currentArray);
         }
         if (currentArray.length > 5) {
@@ -174,8 +67,6 @@ const WeeklyRecipes = ({ }) => {
             });
         });
         const ingredientsByMeasure = {};
-        const ingredientObject = {};
-        let num = 0;
         Object.entries(ingredientsObj).forEach(entryArray => {
             const [entryKey, entryValue] = entryArray;
             entryValue.forEach(e => {
@@ -210,7 +101,7 @@ const WeeklyRecipes = ({ }) => {
             } else {
                 accum.push(`${amount} ${description}`);
             }
-            return accum
+            return accum;
         }, []);
         console.log(listArr)
         setFinalShoppingList(listArr);
@@ -222,16 +113,16 @@ const WeeklyRecipes = ({ }) => {
             <section class="section is-medium">
                 <Columns>
                     <Columns.Column>
-                        <div class="tile">
+                        <div class="tile is-flex">
                             <div class="tile is-parent is-12 is-primary">
                                 <article class="tile is-child notification is-primary">
                                     <ul>
                                         <p class="title">Pick your recipes for the week, or pick them at random</p>
-                                        {fakeDatabase.map(({ rating, recipeName, id, image }) => {
+                                        {recipeList.map(({ rating, recipeName, id, image }) => {
                                             if (clickedId === id && showRecipe === true) {
                                                 return <div class="tile is-child box" onClick={toggleVisibility}>
                                                     <article class="tile is-child notification is-warning">
-                                                        <Recipe clickedId={clickedId} recipe={fakeDatabase} />
+                                                        <Recipe clickedId={clickedId} recipe={recipeList} />
                                                     </article>
                                                     <button onClick={() => addToList(id)}>
                                                         add to list
@@ -251,8 +142,10 @@ const WeeklyRecipes = ({ }) => {
 
                             </div>
                         </div>
+                        
                         <button onClick={handleClick}>pick recipes for me</button>
                         <br />
+                            <label class="label">Weekly Recipes</label>
                         <div class="tile is-4">
                             {weekList.length >= 1 ? <RecipeList recipeList={weekList} onClick={toggleVisibility} /> : null}
 
@@ -260,16 +153,19 @@ const WeeklyRecipes = ({ }) => {
                         <button onClick={createShoppingList}>Create Shopping List </button>
                     </Columns.Column>
                     <Columns.Column>
-                    [enter slideShow]
+                        <SlideShow recipeList={recipeList} />
                     </Columns.Column>
                     <Columns.Column>
-                    <div class="tile is-pulled-right is-vertical box has-background-primary is-4">
-                        <p class="title">Shopping list</p>
-                        {finalShoppingList.map(e => {
-                            return <div> {e} </div>
-
-                        })}
-                    </div>
+                        <div class="level">
+                            <div class="card level-item has-text-centered has-background-primary">
+                                <div class="box has-background-primary-light">
+                                    <p class="title">Shopping list</p>
+                                    {finalShoppingList.map(e => {
+                                        return <div> {e} </div>
+                                    })}
+                                </div>
+                            </div>
+                        </div>
                     </Columns.Column>
                 </Columns>
             </section>

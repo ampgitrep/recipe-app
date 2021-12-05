@@ -1,6 +1,4 @@
 import RecipeControl from "./RecipeControl";
-import { Link } from "react-router-dom";
-import WeeklyRecipes from "./WeeklyRecipes";
 import Login from "./Login.js";
 function App() {
   return (
@@ -13,7 +11,6 @@ function App() {
             </p>
           </div>
         <div class="hero-body">
-     <Login />
      </div>
       </section>
        <RecipeControl />
