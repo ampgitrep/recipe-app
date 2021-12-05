@@ -1,7 +1,7 @@
 import Recipe from "./Recipe";
 import RecipeList from "./RecipeList";
 import AddRecipe from "./AddRecipe";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Columns, Container } from "react-bulma-components";
 import WeeklyRecipes from "./WeeklyRecipes";
 
@@ -33,9 +33,8 @@ const RecipeControl = () => {
     const reader = new FileReader();
     reader.onload = ({ target }) => {
       if (target.result) {
-        const fileToUpload = JSON.parse(target.result);
-        setPrevArray(fileToUpload);
-        setRecipeList([...prevArray])
+        const fileToUpload = JSON.parse(target.result);  
+        getRecipe(fileToUpload)        
       } else {
         alert("error, no file found");
       }
@@ -46,11 +45,18 @@ const RecipeControl = () => {
   }
 
   const getRecipe = (getNewRecipe) => {
+    if(!getNewRecipe.length){
     setRecipe(getNewRecipe);
     const newArray = [...prevArray];
     newArray.push(getNewRecipe);
     setPrevArray(newArray);
     setRecipeList(newArray);
+    }else{
+      const newArray = [...prevArray];
+      newArray.push(getNewRecipe);
+      setPrevArray(newArray.flat())
+      setRecipeList(newArray.flat());
+    }
     return getNewRecipe;
   }
   console.log(recipeList)
