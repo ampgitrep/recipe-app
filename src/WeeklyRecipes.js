@@ -9,6 +9,7 @@ const WeeklyRecipes = ({ recipeList }) => {
     const [clickedId, setClickedId] = useState(null);
     const [showRecipe, setShowRecipe] = useState(false);
     const [finalShoppingList, setFinalShoppingList] = useState([])
+    const [servingSize, setServingSize] = useState('')
 
     const handleClick = () => {
         const recipeArray = [];
@@ -87,9 +88,9 @@ const WeeklyRecipes = ({ recipeList }) => {
                 const measureKey = `${measure} ${ingredient}`;
 
                 if (ingredientMeasureObj[measureKey]) {
-                    ingredientMeasureObj[measureKey] += quantity;
+                    ingredientMeasureObj[measureKey] += quantity*servingSize;
                 } else {
-                    ingredientMeasureObj[measureKey] = quantity;
+                    ingredientMeasureObj[measureKey] = quantity*servingSize;
                 }
             });
         });
@@ -117,7 +118,34 @@ const WeeklyRecipes = ({ recipeList }) => {
                             <div class="tile is-parent is-12 is-primary">
                                 <article class="tile is-child notification is-primary">
                                     <ul>
-                                        <p class="title">Pick your recipes for the week, or pick them at random</p>
+                                        <p class="title">Pick your recipes for the week</p>
+                                        <p class="subtitle">How many people are you cooking for?</p>
+                                        <div class="control">
+          <label class="radio">
+            <input type="radio" name="servingSizeOpt" value={1} onClick={(e)=>setServingSize(e.target.value)}/>
+              1
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value={2} onClick={(e)=>setServingSize(e.target.value)}/>
+              2
+            
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value={3} onClick={(e)=>setServingSize(e.target.value)}/>
+              3
+           
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value={4} onClick={(e)=>setServingSize(e.target.value)}/>
+              4
+        
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value={5} onClick={(e)=>setServingSize(e.target.value)}/>
+              5
+          
+          </label>
+        </div>
                                         {recipeList.map(({ rating, recipeName, id, image }) => {
                                             if (clickedId === id && showRecipe === true) {
                                                 return <div class="tile is-child box" onClick={toggleVisibility}>

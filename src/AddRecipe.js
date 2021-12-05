@@ -36,6 +36,8 @@ const AddRecipe = ({ recipe, recipeList }) => {
   const [dropDown, setDropDown] = useState({ value: 'each', label: 'each' });
   const [image, setImage] = useState(null);
   const [resetFlag, setResetFlag] = useState(false);
+  const [servingSize, setServingSize] = useState('');
+
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
@@ -47,11 +49,13 @@ const AddRecipe = ({ recipe, recipeList }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     //onSubmit handler, increase id # and set array to state object
-    setRecipe({ ...newRecipe, id: newRecipe.id  += 7,  ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], rating: newRecipe.rating = rating, image: newRecipe.image = image })
+    setRecipe({ ...newRecipe, id: newRecipe.id  += 7,  ingredients: newRecipe.ingredients = [...ingredientsList], instructions: newRecipe.instructions = [...instructionsList], servingSize: newRecipe.servingSize = servingSize, rating: newRecipe.rating = rating, image: newRecipe.image = image })
     recipe(newRecipe);
     clearInputFields();
+    console.log(newRecipe)
   };
-
+  
+  let servingSizeOpt = '';
   const options = [
     { value: 'oz', label: 'oz' },
     { value: 'cups', label: 'cups' },
@@ -158,6 +162,7 @@ const AddRecipe = ({ recipe, recipeList }) => {
       instructions: [],
       ingredients: [],
       rating: "",
+      servingSize: 2,
       image: null,
     })
     setInstructionsList([{
@@ -191,10 +196,38 @@ const AddRecipe = ({ recipe, recipeList }) => {
           onChange={(e) => setRecipe({ ...newRecipe, recipeName: newRecipe.recipeName = e.target.value })}
         />
         <label class="label">
+          Serving Size
+        </label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="servingSizeOpt" value='1' onClick={(e)=>setServingSize(e.target.value)}/>
+              1
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value='2' onClick={(e)=>setServingSize(e.target.value)}/>
+              2
+            
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value='3' onClick={(e)=>setServingSize(e.target.value)}/>
+              3
+           
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value='4' onClick={(e)=>setServingSize(e.target.value)}/>
+              4
+        
+          </label>
+          <label class="radio">
+          <input type="radio" name="servingSizeOpt" value='5' onClick={(e)=>setServingSize(e.target.value)}/>
+              5
+          
+          </label>
+        </div>
+
+        <label class="label">
           Ingredients
         </label>
-
-
         <div style={{
           display: 'flex',
           justifyContent: 'center'
