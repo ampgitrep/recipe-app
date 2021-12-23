@@ -32,26 +32,29 @@ const SlideShow = ({ recipeList }) => {
   }
 
   return (
-    <Container class="tile is-primary">
+    <div class="tile is-primary is-vertical is-8">
+      <article class="tile is-child">
+
       <nav class="level">
-          <div class=" card is-primary level-item has-text-centered">
-            <div>
-              <button class="button is-primary is-outlined" onClick={prevSlide} >
-                {`<`}
-              </button>
-            </div>
-            {currentSlide ? 
+        <div class=" card is-primary level-item has-text-centered">
+          <div>
+            <button class="button is-primary is-outlined" onClick={prevSlide} >
+              {`<`}
+            </button>
+          </div>
+          {currentSlide ?
             <figure class="image">
               <img src={recipeList[currentSlide].image} />
-            </figure> : null }
-            <div>
-              <button class="button is-primary is-outlined" onClick={nextSlide} >
-                {`>`}
-              </button>
-            </div>
+            </figure> : null}
+          <div>
+            <button class="button is-primary is-outlined" onClick={nextSlide} >
+              {`>`}
+            </button>
           </div>
+        </div>
       </nav>
-    </Container>
+              </article>
+    </div>
   )
 }
 

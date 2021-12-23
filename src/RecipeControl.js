@@ -70,7 +70,10 @@ const RecipeControl = () => {
     }
   }
 
-
+  const deleteRecipe = () => {
+    const newList = [...recipeList].filter(recipes => {return recipes.id != clickedId});
+    setRecipeList(newList);
+  }
 
   const downloadFile = ({ data, fileName, fileType }) => {
     const blob = new Blob([data], { type: fileType });
@@ -103,7 +106,7 @@ const RecipeControl = () => {
             <Columns.Column>
               <div class="tile is-vertical box is-12 ">
                 {isActive ?
-                  <Recipe recipe={recipeList} clickedId={clickedId} /> :
+                  <Recipe recipe={recipeList} clickedId={clickedId} deleteRecipe={deleteRecipe} /> :
                   <figure class="image is-4by3">
                     <img src="https://cdn9.dissolve.com/p/D2115_189_697/D2115_189_697_1200.jpg" />
                   </figure>
